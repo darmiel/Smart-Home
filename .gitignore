@@ -1,0 +1,12 @@
+#Paths
+code/__pycache__
+
+#Files
+.env
+cert.pem
+key.pem
+models.pyc
+nohup.out
+__pycache__
+colorwebsites.pyx
+users.db

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<head>
+   <link rel="stylesheet" type ="text/css" href="{{ url_for('static', filename='css/main.css') }}">    
+   <link rel="stylesheet" type ="text/css" href="{{ url_for('static', filename='css/checkboxes.css') }}">
+<link rel="stylesheet" type ="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+
+<div class = "login">
+<form action="" method = "POST">
+    <p>email <input type = "email" name = "email" /></p>
+    <p>password <input type = "password" name = "password" /></p>
+    <input type = "submit" value = "Submit" />
+</form>
+</div>
+ 
+<h3>Dont Have an account??</h3>
+<h3><a href = "/register">Register Here</a></h3>
