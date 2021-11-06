@@ -7,8 +7,9 @@
 * [Demo](#demo)
 
 ## General info
-This is a local network smarthome. It mainly controls LED strips and it pushes live information about temperature and humidity of the room. 
-The LED strip and temp information can only be accessed if you are connected to the same network as the server.
+This is a local network smarthome. It mainly controls LED strips, with the integrated Apple HomeKit feature it can also recognize when your phone reaches home and automatically
+turns on the light if you configure it in the home app. 
+The LED strip and weather information can only be accessed if you are connected to the same network as the server.
 
 It can also set an alarm and will start to simulate a sunrise to slowly wake up the user. If you set the alarm at 7 am the sunrise will begin to simulate at 6:30 am. 
 It takes 30 minutes to reach full brightness.
