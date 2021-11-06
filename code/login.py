@@ -4,6 +4,9 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_login import login_required, current_user, login_user, logout_user, LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 from datetime import timedelta
 
@@ -13,6 +16,7 @@ security = Blueprint('security',__name__)
 
 login_manager = LoginManager()
 login_manager.login_view = 'security.login'
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -30,23 +34,32 @@ def login():
             login_user(user,remember=True, duration=timedelta(days=50))
             return redirect('/')
 
-    return render_template('login.html')
+    if table_size() >= int(os.getenv('max_users')):
+        max_users = True
+    else:
+        max_users = False
+
+    return render_template('login.html', max_users = max_users)
 
 @security.route('/register', methods=['POST', 'GET'])
 def register():
     if current_user.is_authenticated:
         return redirect('/')
 
-    if table_size() >= 1:
+    if table_size() >= int(os.getenv('max_users')):
         return redirect('/login')
 
     if request.method == 'POST':
         email = request.form['email']
         username = request.form['username']
         password = request.form['password']
+        password2 = request.form['password2']
 
         if UserModel.query.filter_by(email=email).first():
             return ('Email already Present')
+
+        if password2 != password:
+            return("password did not match up")
 
         user = UserModel(email=email, username=username)
         user.set_password(password)
