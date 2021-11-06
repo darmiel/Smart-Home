@@ -1,11 +1,14 @@
 import paho.mqtt.client as mqtt
 from flask_socketio import SocketIO, emit, join_room, leave_room
 
+
 from __main__ import socketio
 
-rooms = [
-"living-room", "bathroom", "bedroom"
-]
+roomschecked = {
+"living-room": True,
+"bathroom": True,
+"bedroom": True
+}
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -28,7 +31,7 @@ def on_message(client, userdata, message):
         if message.payload.decode("UTF-8") == "Aus":
             mqttc.publish("esp8266/all","0")
         elif message.payload.decode("UTF-8") == "An":
-            for room in rooms:
+            for room in roomschecked:
                 chanel = "esp8266/" + room
                 mqttc.publish(chanel, "3")
 
