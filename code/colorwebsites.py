@@ -5,6 +5,8 @@ from flask_login import login_required, current_user, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from mqtt import mqttc as mqttc
+from mqtt import roomschecked
+
 from alarmthread import startthread
 
 import threading
@@ -21,11 +23,11 @@ alarmtime = ['13:30']
 colors = Blueprint('colors',__name__)
 
 
-roomschecked = {
-"living-room": True,
-"bathroom": True,
-"bedroom": True
-}
+#roomschecked = {
+#"living-room": True,
+#"bathroom": True,
+#"bedroom": True
+#}
 
 
 @colors.route("/", methods=['GET', 'POST'])

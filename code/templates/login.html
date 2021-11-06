@@ -8,14 +8,23 @@
 
 </head>
 
+<h1>Login</h1>
+<br><br>
 
 <div class = "login">
 <form action="" method = "POST">
-    <p>email <input type = "email" name = "email" /></p>
-    <p>password <input type = "password" name = "password" /></p>
-    <input type = "submit" value = "Submit" />
+    <p class="logtext">Email <input type = "email" size="30" name = "email" /></p>
+<br>
+    <p class="logtext">Password <input type = "password" size="30" name = "password" /></p>
+<br>
+    <input type = "submit" value = "Submit" class = "submitlog" />
 </form>
-</div>
- 
+
+<br>
+
+{% if max_users == false %}
 <h3>Dont Have an account??</h3>
 <h3><a href = "/register">Register Here</a></h3>
+{% endif %} 
+
+</div>

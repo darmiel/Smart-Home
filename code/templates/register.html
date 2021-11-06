@@ -1,10 +1,28 @@
-<form action="" method = "POST">
-    <p>email <input type = "email" name = "email" /></p>
-    <p>Username <input type = "text" name = "username" /></p>
-    <p>password <input type = "password" name = "password" /></p>
-    <p> submit <input type = "submit" value = "Submit" /></p>
-</form>
+<head>
+   <link rel="stylesheet" type ="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+   <link rel="stylesheet" type ="text/css" href="{{ url_for('static', filename='css/checkboxes.css') }}">
+<link rel="stylesheet" type ="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<h3>Already Have an Account?</h3><br>
+</head>
+
+<h1> Registration </h1>
+<br><br>
+<div class="login">
+
+<form action="" method = "POST">
+    <p class="logtext">Email <input type = "email" name = "email" /></p>
+<br>
+    <p class="logtext">Username <input type = "text" name = "username" /></p>
+<br>
+    <p class="logtext">Password <input type = "password" name = "password" /></p>
+<br>
+    <p class="logtext">Retype password <input type = "password" name = "password2" /></p>
+<br>
+    <input type = "submit" value = "Submit" class="submitlog"/></p>
+</form>
+<br><br>
+<h3>Already Have an Account?</h3>
 <h3><a href ="/login">Login Here</a></h3>
 
+</div>
