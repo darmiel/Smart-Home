@@ -7,7 +7,7 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 app = Flask(__name__)
 
 socketio = SocketIO(app, cors_allowed_origins='*')
- 
+
 from dotenv import load_dotenv
 import os
 
@@ -21,10 +21,10 @@ from login import login_manager
 
 from mqtt import mqttc
 
+from wine import wine as wine_blueprint
+
 load_dotenv()
 app.secret_key = os.getenv('secret_key')
-
-from weather import get_weather
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -35,6 +35,7 @@ login_manager.init_app(app)
 
 app.register_blueprint(cw_blueprint)
 app.register_blueprint(login_blueprint)
+app.register_blueprint(wine_blueprint)
 
 @app.before_first_request
 def create_all():

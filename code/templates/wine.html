@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+   <title>RPi Web Server</title>
+   <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" type ="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="icon" href="https://media.istockphoto.com/vectors/flat-sun-icon-or-symbol-vector-id607288774?k=6&m=607288774&s=170667a&w=0&h=SAvruqyWOnwF8yuMGnZsZL0y6dSG-JK5irI26K380dU=">
+   <!-- Optional theme -->
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <!-- Latest compiled and minified JavaScript -->
+
+   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+   <script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<h1>Wine chooser</h1>
+
+{% for x in range(0,10) %}
+  
+  <select name="colour" method="GET" action="/">
+    {% for y in range(0,winelist[x]|length) %}
+    <option value="{{winelist[x][y]}}">{{winelist[x][y]}}</option>
+    {%endfor%}
+  </select>
+
+{% endfor %}
+
+<br><br><br>
+
+{% for x in range(0,10) %}
+
+<input list="browsers" name="myBrowser" type="text"/>
+  <datalist id="colour">
+    {% for y in range(0,winelist[x]|length) %}
+    <option value="{{winelist[x][y]}}">{{winelist[x][y]}}</option>
+    {%endfor%}
+  </select>
+</datalist>
+{% endfor %}
+</body>
+</html>

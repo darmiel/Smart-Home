@@ -12,14 +12,13 @@
 <h1>Preset Colors</h1>
 
 
-{% for color in states %} 
+{% for key, value in states.items() %}
 <br><br><br>
 <div class="middle">
-      <a href="{{loop.index}}" class="btn">{{color}}</a>
+      <a href="{{loop.index}}" class="btn">{{key}}</a>
 </div>
 
 {% endfor %}
 
 </body>
 </html>
-

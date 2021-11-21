@@ -11,9 +11,10 @@ from alarmthread import startthread
 
 import threading
 
+from wine import dropdown
+
 from __main__ import socketio
 
-import weather
 
 numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 buttonchange = 0
@@ -21,14 +22,6 @@ buttonchange = 0
 alarmtime = ['13:30']
 
 colors = Blueprint('colors',__name__)
-
-
-#roomschecked = {
-#"living-room": True,
-#"bathroom": True,
-#"bedroom": True
-#}
-
 
 @colors.route("/", methods=['GET', 'POST'])
 @login_required
@@ -65,14 +58,15 @@ def main():
 
            mqttc.publish('esp8266/CustomColor', all_numbers)
 
-           return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked, alarmtime = alarmtime,weather=weather.weatherdata, async_mode=socketio.async_mode, states = getStates())
+           return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked, alarmtime = alarmtime, async_mode=socketio.async_mode, states = getStates())
 
        elif 'PresetColors' in request.form:
            return PresetColors()
 
 
        elif 'CustomColors' in request.form:
-           return CustomColors()
+           return dropdown()
+           #return CustomColors()
 
        elif 'alarm' in request.form:
            return alarm()
@@ -83,12 +77,17 @@ def main():
 
 
     else:
-        return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked,alarmtime = alarmtime,weather = weather.weatherdata,async_mode=socketio.async_mode, states = getStates())
+        return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked,alarmtime = alarmtime,async_mode=socketio.async_mode, states = getStates())
 
 def getStates():
-    states =  ["sunset", "relax", "evening", "pink", "pulse"] #all preset colors
-    return states
+    states =  {"sunset": "329,183,100",
+               "relax": "169,279,324",
+               "evening": "255,100,100",
+               "pink": "355,282,293",
+               } #all preset colors
 
+
+    return states
 
 
 @colors.route("/PresetColors")
@@ -116,22 +115,25 @@ def action(action):
    # If the action part of the URL is "on," execute the code indented below:
 
    if action in numbers:
+       action = int(action) - 1
+       values = getStates().values()
+       values_list = list(values)
 
        for key, value in roomschecked.items():
            if value == True:
               chanel = "esp8266/" + key  #post value in every channel that is set to true (living-room, bathroom etc)
-              mqttc.publish(chanel,action)
+              mqttc.publish(chanel,values_list[action])
 
            else:
 
               chanel = "esp8266/" + key
-              mqttc.publish(chanel,"0")
+              mqttc.publish(chanel,"100,100,100")
 
    if action == '0':
       mqttc.publish("esp8266/all","0") #make sure to turn all LED's off
 
    global buttonchange
-   return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked, alarmtime = alarmtime,weather=weather.weatherdata,async_mode=socketio.async_mode, states = getStates())
+   return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked, alarmtime = alarmtime,async_mode=socketio.async_mode, states = getStates())
 
 
 
@@ -150,4 +152,4 @@ def alarm():
         mqttc.publish("esp8266/all", "alarm0")
         startthread(True, alarmtime)
 
-    return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked, alarmtime = alarmtime,weather = weather.weatherdata,async_mode=socketio.async_mode, states = getStates())
+    return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked, alarmtime = alarmtime,async_mode=socketio.async_mode, states = getStates())
