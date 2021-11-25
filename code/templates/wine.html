@@ -12,32 +12,25 @@
    <script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
 
 </head>
-
 <body>
 
 <h1>Wine chooser</h1>
 
-{% for x in range(0,10) %}
-  
-  <select name="colour" method="GET" action="/">
-    {% for y in range(0,winelist[x]|length) %}
-    <option value="{{winelist[x][y]}}">{{winelist[x][y]}}</option>
-    {%endfor%}
-  </select>
-
-{% endfor %}
-
-<br><br><br>
+<form method="POST" action="/">
 
 {% for x in range(0,10) %}
 
-<input list="browsers" name="myBrowser" type="text"/>
-  <datalist id="colour">
+<input list="{{winelist[x]}}" name="{{winelist[x]}}" type="text"/>
+<datalist id="{{winelist[x]}}">
     {% for y in range(0,winelist[x]|length) %}
-    <option value="{{winelist[x][y]}}">{{winelist[x][y]}}</option>
+     <option value="{{winelist[x][y]}}">{{winelist[x][y]}}</option>
     {%endfor%}
-  </select>
-</datalist>
+  </datalist>
+</input>
+
 {% endfor %}
+<input type="submit" value="submit" class="submit">
+</form>
+
 </body>
 </html>

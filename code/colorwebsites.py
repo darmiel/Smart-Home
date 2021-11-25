@@ -31,6 +31,8 @@ def main():
 
     if request.method == 'POST':
 
+       
+
        if 'alarmtime' in request.form:    #if alarm button was pressed
            newalarmtime = request.form.getlist('alarmtime')
            if newalarmtime != alarmtime:  #if newalarmtime from POST request is different, change alarmtime variable
@@ -74,7 +76,8 @@ def main():
 
        elif 'LEDOff' in request.form:
           return action('0')
-
+       else:
+           print(request.form)
 
     else:
         return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked,alarmtime = alarmtime,async_mode=socketio.async_mode, states = getStates())
@@ -84,6 +87,7 @@ def getStates():
                "relax": "169,279,324",
                "evening": "255,100,100",
                "pink": "355,282,293",
+               "green": "100,235,162"
                } #all preset colors
 
 

@@ -33,7 +33,7 @@ def on_message(client, userdata, message):
         elif message.payload.decode("UTF-8") == "An":
             for room in roomschecked:
                 chanel = "esp8266/" + room
-                mqttc.publish(chanel, "3")
+                mqttc.publish(chanel, "255,100,100")
 
 mqttc=mqtt.Client()
 mqttc.on_connect = on_connect
