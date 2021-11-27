@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, session,abort
 
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, jsonify
 from flask_login import login_required, current_user, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -11,7 +11,7 @@ from alarmthread import startthread
 
 import threading
 
-from wine import dropdown
+from wine import dropdown, select_wine
 
 from __main__ import socketio
 
@@ -31,7 +31,7 @@ def main():
 
     if request.method == 'POST':
 
-       
+
 
        if 'alarmtime' in request.form:    #if alarm button was pressed
            newalarmtime = request.form.getlist('alarmtime')
@@ -81,6 +81,15 @@ def main():
 
     else:
         return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked,alarmtime = alarmtime,async_mode=socketio.async_mode, states = getStates())
+
+@colors.route('/wine', methods = ["GET", "POST"])
+def wine():
+    if request.method == 'POST':
+        data = request.json
+        select_wine(data)
+
+    return jsonify(data)
+    return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked, alarmtime = alarmtime, async_mode=socketio.async_mode, states = getStates())
 
 def getStates():
     states =  {"sunset": "329,183,100",

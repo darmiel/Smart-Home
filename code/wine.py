@@ -84,4 +84,29 @@ def read_wine():
         if sqliteConnection:
             sqliteConnection.close()
 
+def select_wine(selected_data):
+    names = ['name', 'year', 'color', 'grape', 'country', 'taste', 'rating', 'available', 'rowno', 'column']
+    statement = []
+    for i in range(0, len(names)):
+        if selected_data[i] != '':
+            selected_data[i] = f"'{selected_data[i]}'"
+            cond = names[i] + '=' + selected_data[i] + ' AND'
+            statement.append(cond)
+
+    statement = ', '.join(statement).replace(",","")[:-4]
+
+    try:
+       sqliteConnection = sqlite3.connect('users.db')
+       cursor = sqliteConnection.cursor()
+       sqlite_select_query = f"""SELECT * from wine WHERE {statement};"""
+       cursor.execute(sqlite_select_query)
+       records = cursor.fetchall()
+       cursor.close()
+
+    except sqlite3.Error as error:
+       print("Failed to read data from sqlite table", error)
+    finally:
+        if sqliteConnection:
+            sqliteConnection.close()
+
 read_wine()
