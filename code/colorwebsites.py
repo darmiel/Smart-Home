@@ -19,7 +19,7 @@ from __main__ import socketio
 numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 buttonchange = 0
 
-alarmtime = ['13:30']
+alarmtime = ['07:00']
 
 colors = Blueprint('colors',__name__)
 
@@ -68,11 +68,12 @@ def main():
 
        elif 'CustomColors' in request.form:
            return dropdown()
-           #return CustomColors()
 
        elif 'alarm' in request.form:
            return alarm()
 
+       elif 'wine' in request.form:
+           return dropdown()
 
        elif 'LEDOff' in request.form:
           return action('0')
@@ -89,7 +90,7 @@ def wine():
         select_wine(data)
 
     return jsonify(data)
-    return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked, alarmtime = alarmtime, async_mode=socketio.async_mode, states = getStates())
+    return redirect('/')
 
 def getStates():
     states =  {"sunset": "329,183,100",
@@ -146,9 +147,7 @@ def action(action):
       mqttc.publish("esp8266/all","0") #make sure to turn all LED's off
 
    global buttonchange
-   return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked, alarmtime = alarmtime,async_mode=socketio.async_mode, states = getStates())
-
-
+   return redirect('/')
 
 @colors.route("/alarm")
 @login_required
@@ -165,4 +164,4 @@ def alarm():
         mqttc.publish("esp8266/all", "alarm0")
         startthread(True, alarmtime)
 
-    return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked, alarmtime = alarmtime,async_mode=socketio.async_mode, states = getStates())
+    return redirect('/')

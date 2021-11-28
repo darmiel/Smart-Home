@@ -56,15 +56,9 @@ def dropdown():
     return render_template('wine.html', winelist=nested_list())
 
 def read_wine():
-    try:
-       sqliteConnection = sqlite3.connect('users.db')
-       cursor = sqliteConnection.cursor()
 
-       sqlite_select_query = """SELECT * from wine"""
-       cursor.execute(sqlite_select_query)
-       records = cursor.fetchall()
-
-       for row in records:
+    records = sql_connection("""SELECT * from wine""")
+    for row in records:
            name.append(row[0])
            year.append(row[1])
            color.append(row[2])
@@ -76,14 +70,6 @@ def read_wine():
            rowno.append(row[8])
            column.append(row[9])
 
-       cursor.close()
-
-    except sqlite3.Error as error:
-       print("Failed to read data from sqlite table", error)
-    finally:
-        if sqliteConnection:
-            sqliteConnection.close()
-
 def select_wine(selected_data):
     names = ['name', 'year', 'color', 'grape', 'country', 'taste', 'rating', 'available', 'rowno', 'column']
     statement = []
@@ -94,11 +80,18 @@ def select_wine(selected_data):
             statement.append(cond)
 
     statement = ', '.join(statement).replace(",","")[:-4]
+    final_statement = f"""SELECT * from wine WHERE {statement};"""
+
+    records = sql_connection(final_statement)
+    print(records)
+    return render_template('wine.html', winelist=nested_list(), results = records)
+
+def sql_connection(statement):
 
     try:
        sqliteConnection = sqlite3.connect('users.db')
        cursor = sqliteConnection.cursor()
-       sqlite_select_query = f"""SELECT * from wine WHERE {statement};"""
+       sqlite_select_query = statement
        cursor.execute(sqlite_select_query)
        records = cursor.fetchall()
        cursor.close()
@@ -108,5 +101,8 @@ def select_wine(selected_data):
     finally:
         if sqliteConnection:
             sqliteConnection.close()
+    return(records)
+
+
 
 read_wine()
