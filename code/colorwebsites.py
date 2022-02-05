@@ -1,20 +1,14 @@
-from flask import Blueprint, render_template, session,abort
-
-from flask import Flask, render_template, request, url_for, redirect, jsonify
+from flask import Flask, render_template, request, url_for, redirect, jsonify, Blueprint, render_template, session,abort
 from flask_login import login_required, current_user, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from mqtt import mqttc as mqttc
-from mqtt import roomschecked
-
+from mqtt import mqttc, roomschecked
+from wine import dropdown, select_wine, nested_list
 from alarmthread import startthread
 
 import threading
 
-from wine import dropdown, select_wine
-
 from __main__ import socketio
-
 
 numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 buttonchange = 0
@@ -30,8 +24,6 @@ def main():
     global alarmtime
 
     if request.method == 'POST':
-
-
 
        if 'alarmtime' in request.form:    #if alarm button was pressed
            newalarmtime = request.form.getlist('alarmtime')
@@ -65,7 +57,6 @@ def main():
        elif 'PresetColors' in request.form:
            return PresetColors()
 
-
        elif 'CustomColors' in request.form:
            return dropdown()
 
@@ -83,14 +74,16 @@ def main():
     else:
         return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked,alarmtime = alarmtime,async_mode=socketio.async_mode, states = getStates())
 
-@colors.route('/wine', methods = ["GET", "POST"])
+@colors.route('/wine', methods = ["POST", 'GET'])
 def wine():
     if request.method == 'POST':
         data = request.json
-        select_wine(data)
+        results = select_wine(data)
+    else:
+        print("get request")
+    print(results)
+    return render_template('wine.html',results=results, winelist=nested_list())
 
-    return jsonify(data)
-    return redirect('/')
 
 def getStates():
     states =  {"sunset": "329,183,100",
@@ -100,32 +93,24 @@ def getStates():
                "green": "100,235,162"
                } #all preset colors
 
-
     return states
 
 
 @colors.route("/PresetColors")
 @login_required
 def PresetColors():
-
     return render_template('PresetColors.html', states = getStates())
-
-
 
 @colors.route("/CustomColors")
 @login_required
 def CustomColors():
-
     return render_template('CustomColors.html')
-
 
 @colors.route("/<action>")
 @login_required
 def action(action):
    colors = getStates()
    length = len(colors)
-
-
    # If the action part of the URL is "on," execute the code indented below:
 
    if action in numbers:

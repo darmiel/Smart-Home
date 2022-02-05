@@ -1,6 +1,4 @@
-from flask import Blueprint, render_template, session,abort
-from flask import Flask, render_template, request, url_for, redirect
-
+from flask import Flask, render_template, request, url_for, redirect, Blueprint, render_template, session,abort
 from flask_login import login_required, current_user, login_user, logout_user, LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -9,14 +7,12 @@ import os
 load_dotenv()
 
 from datetime import timedelta
-
 from models import UserModel,db,login, table_size
 
 security = Blueprint('security',__name__)
 
 login_manager = LoginManager()
 login_manager.login_view = 'security.login'
-
 
 @login_manager.user_loader
 def load_user(user_id):

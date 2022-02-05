@@ -1,14 +1,11 @@
 import schedule
 import time
 import threading
-from mqtt import mqttc
-
 from datetime import datetime
 
-newalarmtime = '13:30'
+from mqtt import mqttc
 
 s2 = '00:30' # for example
-
 
 stop_threads = False
 

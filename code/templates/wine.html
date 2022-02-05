@@ -29,10 +29,19 @@
 
 {% endfor %}
 
-<button type="button" id="okButton">OK</button>
+<form action="/wine">
+    <input type="submit" id="okButton" value="Get wine" />
+</form>
 
-<p>{{results}}<p>
+{% for x in results %}
+<p>{{x[0]}} Column: {{x[8]}} Row: {{x[9]}}<p> 
+<input type="submit" id="choosebutton" value="Choose">
 
+{% endfor %}
+
+<form action="/">
+    <input type="submit" value="Go back" />
+</form>
 
 <script>
             function getVals(){

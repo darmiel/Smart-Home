@@ -84,7 +84,9 @@ def select_wine(selected_data):
 
     records = sql_connection(final_statement)
     print(records)
-    return render_template('wine.html', winelist=nested_list(), results = records)
+    return records
+
+
 
 def sql_connection(statement):
 

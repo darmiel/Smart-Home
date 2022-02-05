@@ -1,7 +1,6 @@
 import paho.mqtt.client as mqtt
 from flask_socketio import SocketIO, emit, join_room, leave_room
 
-
 from __main__ import socketio
 
 roomschecked = {

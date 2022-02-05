@@ -11,17 +11,15 @@ socketio = SocketIO(app, cors_allowed_origins='*')
 from dotenv import load_dotenv
 import os
 
-from models import UserModel,db,login
 import time
 
 from colorwebsites import colors as cw_blueprint
-
 from login import security as login_blueprint
-from login import login_manager
-
-from mqtt import mqttc
-
 from wine import wine as wine_blueprint
+
+from login import login_manager
+from mqtt import mqttc
+from models import UserModel,db,login
 
 load_dotenv()
 app.secret_key = os.getenv('secret_key')
