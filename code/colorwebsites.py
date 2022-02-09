@@ -3,11 +3,12 @@ from flask_login import login_required, current_user, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from mqtt import mqttc, roomschecked
-from wine import dropdown, select_wine, nested_list
+from wine import dropdown, select_wine, nested_list, delete_wine
 from alarmthread import startthread
 
 import threading
 
+import json
 from __main__ import socketio
 
 numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -69,21 +70,19 @@ def main():
        elif 'LEDOff' in request.form:
           return action('0')
        else:
-           print(request.form)
-
+           winenum = request.form.to_dict()
+           delete_wine(winenum)
+           return redirect('/')
     else:
         return render_template('main.html', alarmstate=buttonchange, roomschecked=roomschecked,alarmtime = alarmtime,async_mode=socketio.async_mode, states = getStates())
 
-@colors.route('/wine', methods = ["POST", 'GET'])
+@colors.route('/wine', methods = ['GET', 'POST'])
 def wine():
-    if request.method == 'POST':
-        data = request.json
+    wine = request.args.get("wine")
+    if wine is not None:
+        data = json.loads(wine)
         results = select_wine(data)
-    else:
-        print("get request")
-    print(results)
     return render_template('wine.html',results=results, winelist=nested_list())
-
 
 def getStates():
     states =  {"sunset": "329,183,100",

@@ -28,15 +28,13 @@
 </input>
 
 {% endfor %}
-
-<form action="/wine">
-    <input type="submit" id="okButton" value="Get wine" />
-</form>
+<input type="submit" id="okButton" value="Get wine" />
 
 {% for x in results %}
-<p>{{x[0]}} Column: {{x[8]}} Row: {{x[9]}}<p> 
-<input type="submit" id="choosebutton" value="Choose">
-
+<p class="wine">{{x[0]}} Column: {{x[8]}} Row: {{x[9]}}<p> 
+<form method="post" action="/">
+	<input type="submit" id="choosebutton" name={{x[8]}}{{x[9]}} value="Choose">
+</form>
 {% endfor %}
 
 <form action="/">
@@ -56,17 +54,19 @@
             $(document).ready(function () {
                 $("#okButton").on("click", function() {
                     var js_data = JSON.stringify(getVals());
-                    $.ajax({                        
-                        url: '/wine',
-                        type : 'post',
-                        contentType: 'application/json',
-                        dataType : 'json',
-                        data : js_data
-                    }).done(function(result) {
-                        $("#data").html(result);
-                    }).fail(function(jqXHR, textStatus, errorThrown) {
-                        console.log("fail: ",textStatus, errorThrown);
-                    });
+			window.location.replace("/wine?wine="+encodeURI(js_data));
+//                    $.ajax({                        
+//                        url: '/wine',
+//                        type : 'post',
+//                        contentType: 'application/json',
+//                        dataType : 'json',
+//                        data : js_data
+//                    }).done(function(result) {
+//			    console.log(result)
+//                        $("#data").html(result);
+//                    }).fail(function(jqXHR, textStatus, errorThrown) {
+//                        console.log("fail: ",textStatus, errorThrown);
+//                    });
                 });
             });	
 
@@ -76,3 +76,4 @@
 </script>
 </body>
 </html>
+

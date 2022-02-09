@@ -103,15 +103,16 @@ def sql_connection(statement):
     finally:
         if sqliteConnection:
             sqliteConnection.close()
-    
+
     return(records)
 
 def delete_wine(winenum):
     winelist = list(winenum.items())
     rowcol=str(winelist[0][0])
-    row=rowcol[0]
-    col=rowcol[1]
-    statement = f"""DELETE FROM wine WHERE row={row} AND column={col};"""
-    sql_connection(statement)
+    col=rowcol[0]
+    row=rowcol[1]
+    final_statement = f"""DELETE FROM wine WHERE row={row} AND column={col};"""
+    sql_connection(final_statement)
+    print(final_statement)
 
 read_wine()
