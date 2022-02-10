@@ -80,7 +80,7 @@ def select_wine(selected_data):
             statement.append(cond)
 
     statement = ', '.join(statement).replace(",","")[:-4]
-    final_statement = f"""SELECT * from wine WHERE {statement};"""
+    final_statement = f"""SELECT * from wine WHERE {statement};""".format(statement=statement)
 
     records = sql_connection(final_statement)
     return records
@@ -111,7 +111,7 @@ def delete_wine(winenum):
     rowcol=str(winelist[0][0])
     row=rowcol[0]
     col=rowcol[1]
-    statement = f"""DELETE FROM wine WHERE row={row} AND column={col};"""
+    statement = f"""DELETE FROM wine WHERE row={row} AND column={col};""".format(row=row, col=col)
     sql_connection(statement)
 
 read_wine()
