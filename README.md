@@ -3,7 +3,7 @@
 ## Table of contents
 * [General info](#general-info)
 * [Setup of Raspberry](#setup-of-raspberry)
-* [Setup of Raspberry](#setup-of-esp)
+* [Setup of ESP](#setup-of-esp)
 * [Demo](#demo)
 
 ## General info
