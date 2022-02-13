@@ -10,16 +10,14 @@
 
 <h1>Login</h1>
 <br><br>
-
 <div class = "login">
 <form action="" method = "POST">
-    <p class="logtext">Email <input type = "email" size="30" name = "email" /></p>
+    <p class="logtext">Email: </p><input type = "email" size="30" name = "email" placeholder="example@domain.com" />
 <br>
-    <p class="logtext">Password <input type = "password" size="30" name = "password" /></p>
+    <p class="logtext">Password: </p><input type = "password" size="30" name = "password" placeholder="*******************" />
 <br>
-    <input type = "submit" value = "Submit" class = "submitlog" />
+    <input type="submit" value = "Submit" class = "submit" />
 </form>
-
 <br>
 
 {% if max_users == false %}

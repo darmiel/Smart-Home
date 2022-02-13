@@ -6,7 +6,7 @@
   <link rel="stylesheet" type ="text/css" href="{{ url_for('static', filename='css/checkboxes.css') }}">
   <link rel="icon" href="https://media.istockphoto.com/vectors/flat-sun-icon-or-symbol-vector-id607288774?k=6&m=607288774&s=170667a&w=0&h=SAvruqyWOnwF8yuMGnZsZL0y6dSG-JK5irI26K380dU=">
    <!-- Optional theme -->
-   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="viewport" content="width=device-width, initial-scale=0">
    <!-- Latest compiled and minified JavaScript -->
 
    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
@@ -34,8 +34,7 @@
 
 
 <form method="POST" action="/">
-
-<div class="middle">
+<div class="actions">
       <input type="submit" name ="PresetColors" value = "Preset colors" class="submit">
       <input type="submit" name ="wine" value = "Wine" class="submit">
       <input type="submit" name ="LEDOff" value = "LED Off" class="submit">
@@ -44,17 +43,14 @@
       {% else %}
       <input type="submit" name ="alarm" value = "turn alarm off" class="submit">
       {% endif %}
-
 </div>
 
-
-<div class="lower-middle">
+<div class="rooms">
 {% for key, value in roomschecked.items() %}
 
 <input type="checkbox" id="{{key}}" name="rooms" value={{key}} {%if value == True %} checked {%endif%}> <label for="{{key}}">{{key}}</label>
 
 {% endfor %}
-
 </div>
 
 <input type="hidden" name = "rooms" value = "placeholder">
@@ -64,8 +60,6 @@
 
 </form>
 
-<div class="lower-left">
-</div>
 </body>
 </html>
 

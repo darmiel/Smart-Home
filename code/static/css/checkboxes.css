@@ -1,24 +1,25 @@
 /*Checkboxes styles*/
-input[type="checkbox"] { display: none; }
+input[type="checkbox"] { 
+  display: none;
+}
 
 input[type="checkbox"] + label {
-  display: block;
+
+  display: flex;
   position: relative;
   padding-left: 35px;
   margin-bottom: 20px;
   font: 14px/20px 'Open Sans', Arial, sans-serif;
   color: #ddd;
   cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  
 }
 
 input[type="checkbox"] + label:last-child { margin-bottom: 0; }
 
 input[type="checkbox"] + label:before {
   content: '';
-  display: block;
+  display: flex;
   width: 20px;
   height: 20px;
   border: 1px solid #6cc0e5;
@@ -42,26 +43,13 @@ input[type="checkbox"]:checked + label:before {
   transform: rotate(45deg);
 }
 
-.time { 
-  margin: 0;
-  position: absolute;
-  left: 50%;
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
-  top: 70%;
+
+.rooms{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-bottom: 20px;
+
 }
 
-.lower-middle{
-  margin: 0;
-  position: absolute;
-  left: 50%;
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
-  top: 50%
-}
 
-.lower-left{
-  position: absolute;
-  left: 20%;
-  top: 80%
-}

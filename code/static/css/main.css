@@ -10,9 +10,28 @@ h1 {
   text-align:center;
 }
 
+form{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  
+  flex-grow: 1;
+  background: #2d3436;
+}
+
 body{
-  margin: 0;
-  padding: 0;
+  background: #2d3436;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  
+  flex-grow: 1;
   background: #2d3436;
 }
 
@@ -20,13 +39,6 @@ body{
   color: white;
 }
 
-.middle{
-  margin: 0;
-  position: absolute;
-  left: 50%;
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
-}
 
 .btn{
   position: relative;
@@ -47,15 +59,20 @@ body{
 }
 
 .submit {
-  position: relative;
-  display: block;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+
   width: 100%;
   color: white;
   font-size: 14px;
   font-family: "montserrat";
+  
   text-align: center;
   text-decoration: none;
-  margin: 15px 0;
+  margin: 10px 0;
   border: 2px solid #ff7675;
   padding: 14px 60px;
   text-transform: uppercase;
@@ -63,6 +80,6 @@ body{
   background-color: Transparent;
 }
 
-div {
-  position: relative;
+.submit:last-of-type{
+  margin-bottom: 10%;
 }
