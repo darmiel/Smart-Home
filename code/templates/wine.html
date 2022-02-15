@@ -18,8 +18,7 @@
 
 
 {% for x in range(0,10) %}
-
-<input list="{{x}}" name="{{x}}"/>
+<input list="{{x}}" name="{{x}}" placeholder="{{winecategories[x]}}"/>
 <datalist id="{{x}}">
     {% for y in range(0,winelist[x]|length) %}
      <option value="{{winelist[x][y]}}">{{winelist[x][y]}}</option>

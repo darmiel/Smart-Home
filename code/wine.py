@@ -53,7 +53,7 @@ def nested_list():
 
 @wine.route('/wine', methods=['GET'])
 def dropdown():
-    return render_template('wine.html', winelist=nested_list())
+    return render_template('wine.html', winecategories=['name', 'year', 'color', 'grape', 'country', 'taste', 'rating', 'available', 'rowno', 'column'], winelist=nested_list())
 
 def read_wine():
 

@@ -82,7 +82,7 @@ def wine():
     if wine is not None:
         data = json.loads(wine)
         results = select_wine(data)
-    return render_template('wine.html',results=results, winelist=nested_list())
+    return render_template('wine.html',results=results, winecategories=['name', 'year', 'color', 'grape', 'country', 'taste', 'rating', 'available', 'rowno', 'column'], winelist=nested_list())
 
 def getStates():
     states =  {"sunset": "329,183,100",
