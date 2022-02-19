@@ -24,15 +24,7 @@ form{
 
 body{
   background: #2d3436;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  
-  flex-grow: 1;
-  background: #2d3436;
+
 }
 
 .wine{
@@ -82,4 +74,12 @@ body{
 
 .submit:last-of-type{
   margin-bottom: 10%;
+}
+
+.middle{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
