@@ -1,33 +1,35 @@
-from flask import Flask, render_template, request, url_for, redirect, Blueprint, render_template, session,abort
-from flask_login import login_required, current_user, login_user, logout_user, LoginManager
-from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 from dotenv import load_dotenv
-import os
+from flask import request, redirect, Blueprint, render_template
+from flask_login import current_user, login_user, logout_user, LoginManager
+
 load_dotenv()
 
 from datetime import timedelta
-from models import UserModel,db,login, table_size
+from models import UserModel, db, table_size
 
-security = Blueprint('security',__name__)
+security = Blueprint('security', __name__)
 
 login_manager = LoginManager()
 login_manager.login_view = 'security.login'
+
 
 @login_manager.user_loader
 def load_user(user_id):
     return UserModel.query.get(int(user_id))
 
-@security.route('/login', methods = ['POST', 'GET'])
+
+@security.route('/login', methods=['POST', 'GET'])
 def login():
     if current_user.is_authenticated:
         return redirect('/')
 
     if request.method == 'POST':
         email = request.form['email']
-        user = UserModel.query.filter_by(email = email).first()
+        user = UserModel.query.filter_by(email=email).first()
         if user is not None and user.check_password(request.form['password']):
-            login_user(user,remember=True, duration=timedelta(days=50))
+            login_user(user, remember=True, duration=timedelta(days=50))
             return redirect('/')
 
     if table_size() >= int(os.getenv('max_users')):
@@ -35,7 +37,8 @@ def login():
     else:
         max_users = False
 
-    return render_template('login.html', max_users = max_users)
+    return render_template('login.html', max_users=max_users)
+
 
 @security.route('/register', methods=['POST', 'GET'])
 def register():
@@ -55,7 +58,7 @@ def register():
             return ('Email already Present')
 
         if password2 != password:
-            return("password did not match up")
+            return ("password did not match up")
 
         user = UserModel(email=email, username=username)
         user.set_password(password)
@@ -63,6 +66,7 @@ def register():
         db.session.commit()
         return redirect('/login')
     return render_template('register.html')
+
 
 @security.route('/logout')
 def logout():

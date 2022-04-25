@@ -1,17 +1,17 @@
 import sqlite3
-from flask import Blueprint, render_template, session,abort
+
+from flask import Blueprint, render_template
 
 
 def create_wine():
-
-#Connecting to sqlite
+    # Connecting to sqlite
     conn = sqlite3.connect('users.db')
 
-#Creating a cursor object using the cursor() method
+    # Creating a cursor object using the cursor() method
     cursor = conn.cursor()
 
-#Creating table as per requirement
-    sql ='''CREATE TABLE IF NOT EXISTS wine(
+    # Creating table as per requirement
+    sql = '''CREATE TABLE IF NOT EXISTS wine(
        name CHAR(100) NOT NULL,
        year INT,
        color CHAR(10),
@@ -25,21 +25,21 @@ def create_wine():
      )'''
     cursor.execute(sql)
 
-# Commit your changes in the database
+    # Commit your changes in the database
     conn.commit()
 
-#Closing the connection
+    # Closing the connection
     conn.close()
 
 
-wine = Blueprint('wine',__name__)
+wine = Blueprint('wine', __name__)
 
 create_wine()
 
 name = []
 year = []
 color = []
-grape  = []
+grape = []
 country = []
 taste = []
 rating = []
@@ -47,28 +47,33 @@ available = []
 rowno = []
 column = []
 
+
 def nested_list():
     nestlist = [name, year, color, grape, country, taste, rating, available, rowno, column]
-    return(nestlist)
+    return nestlist
+
 
 @wine.route('/wine', methods=['GET'])
 def dropdown():
-    return render_template('wine.html', winecategories=['name', 'year', 'color', 'grape', 'country', 'taste', 'rating', 'available', 'rowno', 'column'], winelist=nested_list())
+    return render_template('wine.html',
+                           winecategories=['name', 'year', 'color', 'grape', 'country', 'taste', 'rating', 'available',
+                                           'rowno', 'column'], winelist=nested_list())
+
 
 def read_wine():
-
     records = sql_connection("""SELECT * from wine""")
     for row in records:
-           name.append(row[0])
-           year.append(row[1])
-           color.append(row[2])
-           grape.append(row[3])
-           country.append(row[4])
-           taste.append(row[5])
-           rating.append(row[6])
-           available.append(row[7])
-           rowno.append(row[8])
-           column.append(row[9])
+        name.append(row[0])
+        year.append(row[1])
+        color.append(row[2])
+        grape.append(row[3])
+        country.append(row[4])
+        taste.append(row[5])
+        rating.append(row[6])
+        available.append(row[7])
+        rowno.append(row[8])
+        column.append(row[9])
+
 
 def select_wine(selected_data):
     names = ['name', 'year', 'color', 'grape', 'country', 'taste', 'rating', 'available', 'rowno', 'column']
@@ -79,39 +84,40 @@ def select_wine(selected_data):
             cond = names[i] + '=' + selected_data[i] + ' AND'
             statement.append(cond)
 
-    statement = ', '.join(statement).replace(",","")[:-4]
+    statement = ', '.join(statement).replace(",", "")[:-4]
     final_statement = f"""SELECT * from wine WHERE {statement};""".format(statement=statement)
 
     records = sql_connection(final_statement)
     return records
 
 
-
 def sql_connection(statement):
     records = None
     try:
-       sqliteConnection = sqlite3.connect('users.db')
-       cursor = sqliteConnection.cursor()
-       sqlite_select_query = statement
-       cursor.execute(sqlite_select_query)
-       sqliteConnection.commit()
-       records = cursor.fetchall()
-       cursor.close()
+        sqliteConnection = sqlite3.connect('users.db')
+        cursor = sqliteConnection.cursor()
+        sqlite_select_query = statement
+        cursor.execute(sqlite_select_query)
+        sqliteConnection.commit()
+        records = cursor.fetchall()
+        cursor.close()
 
     except sqlite3.Error as error:
-       print("Failed to read data from sqlite table", error)
+        print("Failed to read data from sqlite table", error)
     finally:
         if sqliteConnection:
             sqliteConnection.close()
-    
-    return(records)
+
+    return records
+
 
 def delete_wine(winenum):
     winelist = list(winenum.items())
-    rowcol=str(winelist[0][0])
-    row=rowcol[0]
-    col=rowcol[1]
+    rowcol = str(winelist[0][0])
+    row = rowcol[0]
+    col = rowcol[1]
     statement = f"""DELETE FROM wine WHERE row={row} AND column={col};""".format(row=row, col=col)
     sql_connection(statement)
+
 
 read_wine()

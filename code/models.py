@@ -1,17 +1,15 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager
-
-
-
 import sqlite3
+
+from flask_login import LoginManager
+from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 def sql_connection():
-
     conn = sqlite3.connect('users.db')
     return conn
+
 
 def table_size():
     conn = sql_connection()
@@ -25,9 +23,9 @@ def table_size():
         print("\nThe SQLite connection is closed.")
 
 
-
 login = LoginManager()
 db = SQLAlchemy()
+
 
 class UserModel(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -37,11 +35,11 @@ class UserModel(UserMixin, db.Model):
     username = db.Column(db.String(100))
     password_hash = db.Column(db.String())
 
-    def set_password(self,password):
+    def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
-    def check_password(self,password):
-        return check_password_hash(self.password_hash,password)
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 
 @login.user_loader
