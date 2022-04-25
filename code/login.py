@@ -1,3 +1,6 @@
+from datetime import timedelta
+from models import UserModel, db, table_size
+
 import os
 
 from dotenv import load_dotenv
@@ -5,9 +8,6 @@ from flask import request, redirect, Blueprint, render_template
 from flask_login import current_user, login_user, logout_user, LoginManager
 
 load_dotenv()
-
-from datetime import timedelta
-from models import UserModel, db, table_size
 
 security = Blueprint('security', __name__)
 
@@ -55,10 +55,10 @@ def register():
         password2 = request.form['password2']
 
         if UserModel.query.filter_by(email=email).first():
-            return ('Email already Present')
+            return 'Email already Present'
 
         if password2 != password:
-            return ("password did not match up")
+            return "password did not match up"
 
         user = UserModel(email=email, username=username)
         user.set_password(password)

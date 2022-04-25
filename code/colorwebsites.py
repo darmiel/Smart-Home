@@ -5,7 +5,7 @@ from flask import request, redirect, Blueprint, render_template
 from flask_login import login_required
 
 from alarmthread import start_thread
-from mqtt import mqttc, roomschecked
+from mqtt import mqttc, rooms_checked
 from wine import dropdown, select_wine, nested_list, delete_wine
 
 numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -32,11 +32,11 @@ def main():
         if 'rooms' in request.form:
             checked_rooms = request.form.getlist('rooms')
 
-            for room in roomschecked:
+            for room in rooms_checked:
                 if room in checked_rooms:
-                    roomschecked[room] = True
+                    rooms_checked[room] = True
                 else:
-                    roomschecked[room] = False  # if box is checked set room to true, otherwise false
+                    rooms_checked[room] = False  # if box is checked set room to true, otherwise false
 
         if 'red' in request.form or 'green' in request.form or 'blue' in request.form:
             number_of_slider_r = request.form['red']  # checks value of sliders once submitted
@@ -48,13 +48,13 @@ def main():
 
             mqttc.publish('esp8266/CustomColor', all_numbers)
 
-            return render_template('main.html', alarmstate=button_change, roomschecked=roomschecked,
-                                   alarmtime=alarmtime, async_mode=socketio.async_mode, states=getStates())
+            return render_template('main.html', alarmstate=button_change, roomschecked=rooms_checked,
+                                   alarmtime=alarmtime, async_mode=socketio.async_mode, states=get_states())
 
-        elif 'PresetColors' in request.form:
-            return PresetColors()
+        elif 'preset_colors' in request.form:
+            return preset_colors()
 
-        elif 'CustomColors' in request.form:
+        elif 'custom_colors' in request.form:
             return dropdown()
 
         elif 'alarm' in request.form:
@@ -70,8 +70,8 @@ def main():
             delete_wine(wine_num)
             return redirect('/')
     else:
-        return render_template('main.html', alarmstate=button_change, roomschecked=roomschecked, alarmtime=alarmtime,
-                               async_mode=socketio.async_mode, states=getStates())
+        return render_template('main.html', alarmstate=button_change, roomschecked=rooms_checked, alarmtime=alarmtime,
+                               async_mode=socketio.async_mode, states=get_states())
 
 
 @colors.route('/wine', methods=['GET', 'POST'])
@@ -85,7 +85,7 @@ def wine():
                                            'rowno', 'column'], winelist=nested_list())
 
 
-def getStates():
+def get_states():
     states = {"sunset": "329,183,100",
               "relax": "169,279,324",
               "evening": "255,100,100",
@@ -98,29 +98,28 @@ def getStates():
 
 @colors.route("/PresetColors")
 @login_required
-def PresetColors():
-    return render_template('PresetColors.html', states=getStates())
+def preset_colors():
+    return render_template('preset_colors.html', states=get_states())
 
 
 @colors.route("/CustomColors")
 @login_required
-def CustomColors():
-    return render_template('CustomColors.html')
+def custom_colors():
+    return render_template('custom_colors.html')
 
 
 @colors.route("/<action>")
 @login_required
 def action(action):
-    colors = getStates()
     # If the action part of the URL is "on," execute the code indented below:
 
     if action in numbers:
         action = int(action) - 1
-        values = getStates().values()
+        values = get_states().values()
         values_list = list(values)
 
-        for key, value in roomschecked.items():
-            if value == True:
+        for key, value in rooms_checked.items():
+            if value:
                 chanel = "esp8266/" + key  # post value in every channel that is set to true (living-room, bathroom etc)
                 mqttc.publish(chanel, values_list[action])
 

@@ -13,12 +13,12 @@ def sql_connection():
 
 def table_size():
     conn = sql_connection()
-    cursorObj = conn.cursor()
-    cursor = cursorObj.execute('select * from users;')
+    cursor_obj = conn.cursor()
+    cursor = cursor_obj.execute('select * from users;')
     length = len(cursor.fetchall())
-    return (length)
+    return length
 
-    if (conn):
+    if conn:
         conn.close()
         print("\nThe SQLite connection is closed.")
 
