@@ -1,5 +1,7 @@
 #Paths
-code/__pycache__
+api/__pycache__
+/api/venv
+/.idea
 
 #Files
 .env
@@ -10,3 +12,36 @@ nohup.out
 __pycache__
 colorwebsites.pyx
 users.db
+
+/frontend/node_modules
+
+
+/frontend/.pnp
+/frontend/.pnp.js
+
+# testing
+frontend/coverage
+
+# production
+/frontend/build
+
+# misc
+/frontend.DS_Store
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+
+#react
+/frontend/src/App.test.js
+/frontend/src/setupTests.js
+/frontend/src/reportWebVitals.js
+/frontend/package.json
+/frontend/postcss.config.js
+/frontend/package-lock.json
+
+/frontend/public/
