@@ -31,12 +31,12 @@
 
 {% for x in results %}
 <p class="wine">{{x[0]}} Column: {{x[8]}} Row: {{x[9]}}<p> 
-<form method="post" action="/">
+<form method="post" action="/api/static">
 	<input type="submit" id="choosebutton" name={{x[8]}}{{x[9]}} value="Choose">
 </form>
 {% endfor %}
 
-<form action="/">
+<form action="/api/static">
     <input type="submit" value="Go back" />
 </form>
 
