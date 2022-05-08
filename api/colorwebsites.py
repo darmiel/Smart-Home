@@ -1,5 +1,4 @@
 import json
-from __main__ import socketio
 
 from flask import request, redirect, Blueprint, render_template
 from flask_login import login_required
@@ -49,7 +48,7 @@ def main():
             mqttc.publish('esp8266/CustomColor', all_numbers)
 
             return render_template('main.html', alarmstate=button_change, roomschecked=rooms_checked,
-                                   alarmtime=alarmtime, async_mode=socketio.async_mode, states=get_states())
+                                   alarmtime=alarmtime,states=get_states())
 
         elif 'preset_colors' in request.form:
             return preset_colors()
@@ -71,7 +70,7 @@ def main():
             return redirect('/')
     else:
         return render_template('main.html', alarmstate=button_change, roomschecked=rooms_checked, alarmtime=alarmtime,
-                               async_mode=socketio.async_mode, states=get_states())
+                              states=get_states())
 
 
 @colors.route('/wine', methods=['GET', 'POST'])

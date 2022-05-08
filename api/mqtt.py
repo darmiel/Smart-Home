@@ -1,5 +1,3 @@
-from __main__ import socketio
-
 import paho.mqtt.client as mqtt
 
 rooms_checked = {
@@ -23,11 +21,6 @@ def on_connect(client, rc):
 # The callback for when a PUBLISH message is received from the ESP8266.
 def on_message(message):
     # socketio.emit('my variable')
-
-    if message.topic == "/esp8266/temperature":
-        socketio.emit('dht_temperature', message.payload.decode("UTF-8"), broadcast=True)
-    if message.topic == "/esp8266/humidity":
-        socketio.emit('dht_humidity', message.payload.decode("UTF-8"), broadcast=True)
     if message.topic == "/esp8266/state":
         if message.payload.decode("UTF-8") == "Aus":
             mqttc.publish("esp8266/all", "0")
@@ -38,7 +31,5 @@ def on_message(message):
 
 
 mqttc = mqtt.Client()
-mqttc.on_connect = on_connect
-mqttc.on_message = on_message
-mqttc.connect("localhost", 1883)
+mqttc.connect("10.0.0.10", 1883)
 mqttc.loop_start()

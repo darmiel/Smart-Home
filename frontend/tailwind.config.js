@@ -11,6 +11,7 @@ module.exports = {
       blue: colors.lightBlue,
       red: colors.rose,
       pink: colors.fuchsia,
+        'darkReader': '#181A1B'
     },
     screens: {
       'sm': {'min': '0px', 'max': '584px'},
