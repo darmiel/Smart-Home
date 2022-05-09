@@ -4,8 +4,8 @@ from flask import request, redirect, Blueprint, render_template
 from flask_login import login_required
 
 from alarmthread import start_thread
-from mqtt import mqttc, rooms_checked
-from wine import dropdown, select_wine, nested_list, delete_wine
+from mqtt import mqttc
+from wine import select_wine, nested_list
 
 numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 button_change = 0
@@ -15,62 +15,22 @@ alarmtime = ['07:00']
 colors = Blueprint('colors', __name__)
 
 
-@colors.route("/", methods=['GET', 'POST'])
-@login_required
-def main():
-    global alarmtime
+@colors.route('/result', methods=['POST'])
+def result():
+    colors = request.json
+    action(colors["colors"])
+    return "No player information is given"
 
-    if request.method == 'POST':
 
-        if 'alarmtime' in request.form:  # if alarm button was pressed
-            new_alarmtime = request.form.getlist('alarmtime')
-            if new_alarmtime != alarmtime:  # if new_alarmtime from POST request is different, change alarmtime variable
-                alarmtime = new_alarmtime
-                return alarm()
+@colors.route('/react')
+def react():
+    return {'colors': ["Sunset", "Relax", "Evening", "Pink", "Green"]}
 
-        if 'rooms' in request.form:
-            checked_rooms = request.form.getlist('rooms')
 
-            for room in rooms_checked:
-                if room in checked_rooms:
-                    rooms_checked[room] = True
-                else:
-                    rooms_checked[room] = False  # if box is checked set room to true, otherwise false
+@colors.route('/tiles')
+def tiles():
+    return {'Tiles': ["Preset Colors", "Led Off", "Wine", "Alarm"]}
 
-        if 'red' in request.form or 'green' in request.form or 'blue' in request.form:
-            number_of_slider_r = request.form['red']  # checks value of sliders once submitted
-            number_of_slider_g = request.form['green']
-            number_of_slider_b = request.form['blue']
-
-            all_numbers = number_of_slider_r + ';' + number_of_slider_g + ';' + number_of_slider_b
-            # puts all values into a single string and pushes it via MQTT
-
-            mqttc.publish('esp8266/CustomColor', all_numbers)
-
-            return render_template('main.html', alarmstate=button_change, roomschecked=rooms_checked,
-                                   alarmtime=alarmtime,states=get_states())
-
-        elif 'preset_colors' in request.form:
-            return preset_colors()
-
-        elif 'custom_colors' in request.form:
-            return dropdown()
-
-        elif 'alarm' in request.form:
-            return alarm()
-
-        elif 'wine' in request.form:
-            return dropdown()
-
-        elif 'LEDOff' in request.form:
-            return action('0')
-        else:
-            wine_num = request.form.to_dict()
-            delete_wine(wine_num)
-            return redirect('/')
-    else:
-        return render_template('main.html', alarmstate=button_change, roomschecked=rooms_checked, alarmtime=alarmtime,
-                              states=get_states())
 
 
 @colors.route('/wine', methods=['GET', 'POST'])
@@ -95,43 +55,14 @@ def get_states():
     return states
 
 
-@colors.route("/PresetColors")
-@login_required
-def preset_colors():
-    return render_template('preset_colors.html', states=get_states())
-
-
-@colors.route("/CustomColors")
-@login_required
-def custom_colors():
-    return render_template('custom_colors.html')
-
-
-@colors.route("/<action>")
-@login_required
 def action(action):
     # If the action part of the URL is "on," execute the code indented below:
+    values = get_states()
+    if action.lower() in values:
+        mqttc.publish("esp8266/living-room", values.get(action.lower()))
 
-    if action in numbers:
-        action = int(action) - 1
-        values = get_states().values()
-        values_list = list(values)
-
-        for key, value in rooms_checked.items():
-            if value:
-                chanel = "esp8266/" + key  # post value in every channel that is set to true (living-room, bathroom etc)
-                mqttc.publish(chanel, values_list[action])
-
-            else:
-
-                chanel = "esp8266/" + key
-                mqttc.publish(chanel, "100,100,100")
-
-    if action == '0':
+    if action == 'off':
         mqttc.publish("esp8266/all", "0")  # make sure to turn all LED's off
-
-    global button_change
-    return redirect('/')
 
 
 @colors.route("/alarm")

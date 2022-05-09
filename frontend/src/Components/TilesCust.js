@@ -9,7 +9,7 @@ export default class TilesCust extends React.Component {
 		this.state = {
 			isLoaded: false,
             title: [],
-            tileNames: ["PresetColors", "Wine"],
+            tileNames: [],
             showTiles: true
 
 		};
@@ -44,7 +44,7 @@ export default class TilesCust extends React.Component {
                 return (
                     <div className="flex flex-row">
                         <div className="flex-row flex-grow flex-wrap md:w-6/12">
-                            <Tiles tileNames={this.state.tileNames}/>
+                            <Tiles/>
                         </div>
                         <div className="flex flex-row flex-grow flex-wrap md:w-6/12 sm:hidden">
                             {this.state.title}
@@ -58,3 +58,4 @@ export default class TilesCust extends React.Component {
 
     }
 }
+
