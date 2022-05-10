@@ -105,14 +105,14 @@ async function tileName_getter(){
 }
 
 
-export function func1(JSONOb) {
-    fetch("http://localhost:5000/result", {
+export async function func1(JSONOb) {
+    await fetch("http://localhost:5000/result", {
             method: "POST",
             cache: "no-cache",
             headers: {
                 "content_type": "application/json",
             },
-            body: JSON.stringify({'colors':JSONOb})
+            body: JSON.stringify({'colors': JSONOb})
         }
     )
 }

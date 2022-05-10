@@ -20,10 +20,9 @@ rooms_checked = {
 @colors.route('/result', methods=['POST'])
 def result():
     colors = request.json
-    print(colors['colors'])
     try:
         if colors['colors'] in rooms_checked:
-            rooms_checked[colors['colors']] = True if rooms_checked[colors['colors']] else False
+            rooms_checked[colors['colors']] = True if not rooms_checked[colors['colors']] else False
             print(rooms_checked[colors['colors']])
 
         elif colors["time"][0]:
@@ -55,18 +54,6 @@ def tiles():
 def rooms():
     return {'rooms_checked': rooms_checked
             }
-
-
-@colors.route
-@colors.route('/wine', methods=['GET', 'POST'])
-def wine():
-    wine_name = request.args.get("wine")
-    if wine_name is not None:
-        data = json.loads(wine_name)
-        results = select_wine(data)
-    return render_template('wine.html', results=results,
-                           winecategories=['name', 'year', 'color', 'grape', 'country', 'taste', 'rating', 'available',
-                                           'rowno', 'column'], winelist=nested_list())
 
 
 def get_states():
