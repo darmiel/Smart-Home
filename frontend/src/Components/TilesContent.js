@@ -1,6 +1,7 @@
 import React from 'react';
 import PresetColors from './PresetColors'
 import Alarm from './Alarm'
+import Rooms from "./Rooms";
 
 
 export default class Tiles extends React.Component {
@@ -13,19 +14,22 @@ export default class Tiles extends React.Component {
             tiles: [],
             showTiles: true,
             tileContents: [],
-            isLoaded: false
-
+            isLoaded: false,
         }
     }
 
     handler(){
-        this.setState({
-            tileContents : []
-        })
+
+            this.setState({
+                tileContents : []
+            })
+
+
     }
 
 
     async componentDidMount() {
+
         const tileNames = await tileName_getter()
         for (let i = 0; i < tileNames.length; i++) {
             this.state.tiles.push(
@@ -49,7 +53,6 @@ export default class Tiles extends React.Component {
 
 
     render() {
-        console.log(this.state.tileContents)
         //this.createTiles()
         if (!this.state.isLoaded){
             return(
@@ -60,6 +63,7 @@ export default class Tiles extends React.Component {
             return (
                 <div>
                     {this.state.tiles}
+                    <Rooms/>
                 </div>
             )
         } else if (this.state.tileContents === "Preset Colors") {

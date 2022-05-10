@@ -1,25 +1,44 @@
 import json
 
-from flask import request, redirect, Blueprint, render_template
-from flask_login import login_required
+from flask import request, Blueprint, render_template
 
 from alarmthread import start_thread
 from mqtt import mqttc
 from wine import select_wine, nested_list
 
-numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-button_change = 0
-
 alarmtime = ['07:00']
 
 colors = Blueprint('colors', __name__)
+
+rooms_checked = {
+    "living-room": True,
+    "bathroom": True,
+    "bedroom": True
+}
 
 
 @colors.route('/result', methods=['POST'])
 def result():
     colors = request.json
-    action(colors["colors"])
-    return "No player information is given"
+    print(colors['colors'])
+    try:
+        if colors['colors'] in rooms_checked:
+            rooms_checked[colors['colors']] = True if rooms_checked[colors['colors']] else False
+            print(rooms_checked[colors['colors']])
+
+        elif colors["time"][0]:
+            mqttc.publish("esp8266/all", "alarm1")
+            start_thread(True, colors["time"][1])  # cancel running threads
+            start_thread(False, colors["time"][1])
+
+        else:
+            mqttc.publish("esp8266/all", "alarm0")
+            start_thread(True, colors["time"][1])
+
+
+    except:
+        action(colors["colors"])
+    return "hello"
 
 
 @colors.route('/react')
@@ -32,7 +51,13 @@ def tiles():
     return {'Tiles': ["Preset Colors", "Led Off", "Wine", "Alarm"]}
 
 
+@colors.route('/rooms')
+def rooms():
+    return {'rooms_checked': rooms_checked
+            }
 
+
+@colors.route
 @colors.route('/wine', methods=['GET', 'POST'])
 def wine():
     wine_name = request.args.get("wine")
@@ -63,20 +88,3 @@ def action(action):
 
     if action == 'off':
         mqttc.publish("esp8266/all", "0")  # make sure to turn all LED's off
-
-
-@colors.route("/alarm")
-@login_required
-def alarm():
-    global button_change
-    if button_change == 0:
-        button_change = 1
-        mqttc.publish("esp8266/all", "alarm1")
-        start_thread(False, alarmtime)
-
-    else:
-        button_change = 0
-        mqttc.publish("esp8266/all", "alarm0")
-        start_thread(True, alarmtime)
-
-    return redirect('/')

@@ -2,6 +2,7 @@ import React from 'react';
 import {news_getter} from './RSS'
 import Tiles from './TilesContent'
 import '../index.css'
+import Rooms from './Rooms'
 
 export default class TilesCust extends React.Component {
     constructor(props) {
