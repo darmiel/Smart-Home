@@ -43,5 +43,3 @@ frontend/coverage
 /frontend/package.json
 /frontend/postcss.config.js
 /frontend/package-lock.json
-
-/frontend/public/
