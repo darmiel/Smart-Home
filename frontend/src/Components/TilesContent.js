@@ -63,7 +63,7 @@ export default class Tiles extends React.Component {
             return (
                 <div>
                     {this.state.tiles}
-                    <Rooms/>
+
                 </div>
             )
         } else if (this.state.tileContents === "Preset Colors") {
