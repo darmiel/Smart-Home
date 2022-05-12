@@ -17,40 +17,33 @@ rooms_checked = {
 }
 
 
-@colors.route('/result', methods=['POST'])
+@colors.route('/api/result', methods=['POST'])
 def result():
-    colors = request.json
+    colors = json.loads(request.data)
     try:
-        if colors['colors'] in rooms_checked:
-            rooms_checked[colors['colors']] = True if not rooms_checked[colors['colors']] else False
-            print(rooms_checked[colors['colors']])
-
-        elif colors["time"][0]:
+        if colors['time'][0]:
             mqttc.publish("esp8266/all", "alarm1")
             start_thread(True, colors["time"][1])  # cancel running threads
             start_thread(False, colors["time"][1])
-
         else:
             mqttc.publish("esp8266/all", "alarm0")
             start_thread(True, colors["time"][1])
-
-
     except:
         action(colors["colors"])
     return "hello"
 
 
-@colors.route('/react')
+@colors.route('/api/react')
 def react():
     return {'colors': ["Sunset", "Relax", "Evening", "Pink", "Green"]}
 
 
-@colors.route('/tiles')
+@colors.route('/api/tiles')
 def tiles():
     return {'Tiles': ["Preset Colors", "Led Off", "Wine", "Alarm"]}
 
 
-@colors.route('/rooms')
+@colors.route('/api/rooms')
 def rooms():
     return {'rooms_checked': rooms_checked
             }
@@ -71,7 +64,8 @@ def action(action):
     # If the action part of the URL is "on," execute the code indented below:
     values = get_states()
     if action.lower() in values:
-        mqttc.publish("esp8266/living-room", values.get(action.lower()))
+        for room in rooms_checked:
+            mqttc.publish("esp8266/" + room, values.get(action.lower()))
 
     if action == 'off':
         mqttc.publish("esp8266/all", "0")  # make sure to turn all LED's off

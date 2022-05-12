@@ -38,9 +38,9 @@ export default class Tiles extends React.Component {
                         onClick={() => {
                             this.setState({tileContents: tileNames[i]})
                         }}
-                        className="flex-grow aspect-square m-4 relative items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 text-white">
+                        className="tiles">
                         <span key={"hallo" + [i]}
-                              className="text-white relative w-32 h-32 inline-flex justify-center items-center bg-darkReader rounded-md group-hover:bg-opacity-0">
+                              className="text-white relative w-32 h-32 inline-flex justify-center items-center bg-darkReader rounded-md">
                          {tileContent(tileNames[i])}
                         </span>
                     </button>
@@ -96,7 +96,7 @@ function tileContent(probs){
 
 async function tileName_getter(){
     var TileNames=[]
-    await fetch('/tiles').then(res => res.json()).then(data => {
+    await fetch('api/tiles').then(res => res.json()).then(data => {
         for (let i = 0; i < Object.values(data)[0].length; i++) {
             TileNames.push(Object.values(data)[0][i])
         }
@@ -106,7 +106,7 @@ async function tileName_getter(){
 
 
 export async function func1(JSONOb) {
-    await fetch("http://localhost:5000/result", {
+    await fetch("/api/result", {
             method: "POST",
             cache: "no-cache",
             headers: {

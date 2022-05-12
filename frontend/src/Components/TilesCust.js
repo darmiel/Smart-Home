@@ -24,7 +24,7 @@ export default class TilesCust extends React.Component {
         if (this.state.title.length === 0) {
             for (let i = 0; i < 10; i++) { //max 40
                 this.state.title.push(<a key={Object.values(news)[i]} href={Object.values(news)[i]} target="_blank" type="button"
-                                              className="bg-darkReader text-white m-4 mr-12 ml-8 w-full py-2.5 px-5 mr-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border border-gray-200 focus:ring-gray-700 hover:bg-gray-700" rel="noreferrer">{Object.keys(news)[i]}</a>)
+                                              className="bg-darkReader text-gray-50 m-4 mr-12 ml-8 w-full py-2.5 px-5 mr-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border border-gray-200 focus:ring-gray-700 hover:bg-gray-700" rel="noreferrer">{Object.keys(news)[i]}</a>)
             }
         }
         this.state.isLoaded = true	//when all repos descriptions are gathered tell app it's loaded
