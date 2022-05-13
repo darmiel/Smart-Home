@@ -1,4 +1,5 @@
 import json
+import time
 
 from flask import request, Blueprint, render_template
 
@@ -24,11 +25,12 @@ def result():
         if colors['time'][0]:
             mqttc.publish("esp8266/all", "alarm1")
             start_thread(True, colors["time"][1])  # cancel running threads
+            time.sleep(1)
             start_thread(False, colors["time"][1])
         else:
             mqttc.publish("esp8266/all", "alarm0")
             start_thread(True, colors["time"][1])
-    except:
+    except KeyError:
         action(colors["colors"])
     return "hello"
 

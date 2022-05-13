@@ -43,11 +43,11 @@ export default class TilesCust extends React.Component {
         } else if (this.state.showTiles) {
 
                 return (
-                    <div className="flex flex-row">
+                    <div className="flex md:flex-row sm:flex-wrap">
                         <div className="flex-row flex-grow flex-wrap md:w-6/12">
                             <Tiles/>
                         </div>
-                        <div className="flex flex-row flex-grow flex-wrap md:w-6/12 sm:hidden">
+                        <div className="flex flex-row flex-grow flex-wrap md:w-6/12">
                             {this.state.title}
                         </div>
                     </div>)

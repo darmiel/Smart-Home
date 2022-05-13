@@ -40,7 +40,7 @@ export default class Tiles extends React.Component {
                         }}
                         className="tiles">
                         <span key={"hallo" + [i]}
-                              className="text-white relative w-32 h-32 inline-flex justify-center items-center bg-darkReader rounded-md">
+                              className="text-white relative w-32 h-32 inline-flex justify-center items-center bg-darkReader rounded-md group-hover:bg-opacity-0">
                          {tileContent(tileNames[i])}
                         </span>
                     </button>
@@ -61,10 +61,10 @@ export default class Tiles extends React.Component {
         }
         if (this.state.tileContents.length === 0){
             return (
-                <div>
-                    {this.state.tiles}
+                <>
+                    <button>{this.state.tiles}</button>
 
-                </div>
+                </>
             )
         } else if (this.state.tileContents === "Preset Colors") {
             return(
