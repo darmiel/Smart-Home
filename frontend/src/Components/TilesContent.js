@@ -1,7 +1,6 @@
 import React from 'react';
 import PresetColors from './PresetColors'
 import Alarm from './Alarm'
-import Rooms from "./Rooms";
 
 
 export default class Tiles extends React.Component {
@@ -10,7 +9,7 @@ export default class Tiles extends React.Component {
         super(props);
 
         this.handler = this.handler.bind(this)
-        this.state= {
+        this.state = {
             tiles: [],
             showTiles: true,
             tileContents: [],
@@ -18,11 +17,11 @@ export default class Tiles extends React.Component {
         }
     }
 
-    handler(){
-            this.setState({
-                tileContents : [],
+    handler() {
+        this.setState({
+            tileContents: [],
 
-            })
+        })
     }
 
 
@@ -50,14 +49,14 @@ export default class Tiles extends React.Component {
 
     render() {
         //this.createTiles()
-        if (!this.state.isLoaded){
-            return(
+        if (!this.state.isLoaded) {
+            return (
                 <>
                     <p>Loading</p>
-                    </>
+                </>
             )
         }
-        if (this.state.tileContents.length === 0){
+        if (this.state.tileContents.length === 0) {
             return (
                 <>
                     <button>{this.state.tiles}</button>
@@ -65,18 +64,18 @@ export default class Tiles extends React.Component {
                 </>
             )
         } else if (this.state.tileContents === "Preset Colors") {
-            return(
+            return (
                 <PresetColors handler={this.handler}/>
             )
-        } else if (this.state.tileContents === "Led Off"){
+        } else if (this.state.tileContents === "Led Off") {
             sendToApi("off")
-            return(
+            return (
                 <>
-            <button>{this.state.tiles}</button>
-                    </>
+                    <button>{this.state.tiles}</button>
+                </>
             )
-        } else if (this.state.tileContents === "Alarm"){
-            return(
+        } else if (this.state.tileContents === "Alarm") {
+            return (
                 <Alarm handler={this.handler}/>
             )
         }
@@ -84,8 +83,8 @@ export default class Tiles extends React.Component {
     }
 }
 
-function tileContent(probs){
-    return(
+function tileContent(probs) {
+    return (
         <div>
             <p>{probs}</p>
         </div>
@@ -93,7 +92,7 @@ function tileContent(probs){
 }
 
 
-async function tileName_getter(){
+async function tileName_getter() {
     const TileNames = [];
     const res = await fetch('api/tiles')
     const json = await res.json()

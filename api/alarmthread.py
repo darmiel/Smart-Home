@@ -20,7 +20,7 @@ def job():
 def run():
     global schedule_job
 
-# if a schedule job exists cancel it
+    # if a schedule job exists cancel it
     if schedule_job is not None:
         schedule.cancel_job(schedule_job)
     time_format = '%H:%M'

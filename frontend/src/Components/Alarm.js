@@ -16,16 +16,22 @@ export default class Alarm extends React.Component {
 
         this.state.AlarmTile.push(
             <div className="flex flex-row items-center">
-                <button onClick={() => {this.props.handler(); alarmAPI(this.state.checkBox, this.state.time)}} className="tiles">
-                        <span className="text-white relative w-32 h-32 inline-flex justify-center items-center bg-darkReader rounded-md group-hover:bg-opacity-0">Send Alarm</span>
+                <button onClick={() => {
+                    this.props.handler();
+                    alarmAPI(this.state.checkBox, this.state.time)
+                }} className="tiles">
+                    <span
+                        className="text-white relative w-32 h-32 inline-flex justify-center items-center bg-darkReader rounded-md group-hover:bg-opacity-0">Send Alarm</span>
                 </button>
                 <div className="flex items-center, flex-col">
-                <input type={"time"} id={"test"} onChange={(ev) => this.setState({time: ev.target.value})}/>
-                <div class="flex items-center m-2">
-                    <input onClick={() => {this.state.checkBox ? this.setState({checkBox: false}) : this.setState({checkBox: true})}} id="default-checkbox" type="checkbox"
-                           className="w-4 h-4 text-blue bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                    <label className="ml-2 text-sm text-white">Set Alarm</label>
-                </div>
+                    <input type={"time"} id={"test"} onChange={(ev) => this.setState({time: ev.target.value})}/>
+                    <div class="flex items-center m-2">
+                        <input onClick={() => {
+                            this.state.checkBox ? this.setState({checkBox: false}) : this.setState({checkBox: true})
+                        }} id="default-checkbox" type="checkbox"
+                               className="w-4 h-4 text-blue bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                        <label className="ml-2 text-sm text-white">Set Alarm</label>
+                    </div>
                 </div>
 
             </div>
