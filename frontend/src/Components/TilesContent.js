@@ -19,12 +19,10 @@ export default class Tiles extends React.Component {
     }
 
     handler(){
-
             this.setState({
-                tileContents : []
+                tileContents : [],
+
             })
-
-
     }
 
 
@@ -50,13 +48,13 @@ export default class Tiles extends React.Component {
         this.setState({isLoaded: true})
     }
 
-
-
     render() {
         //this.createTiles()
         if (!this.state.isLoaded){
             return(
-                <p className="text-white">Loading</p>
+                <>
+                    <p>Loading</p>
+                    </>
             )
         }
         if (this.state.tileContents.length === 0){
@@ -71,9 +69,11 @@ export default class Tiles extends React.Component {
                 <PresetColors handler={this.handler}/>
             )
         } else if (this.state.tileContents === "Led Off"){
+            sendToApi("off")
             return(
-                func1("off"),
-                this.handler()
+                <>
+            <button>{this.state.tiles}</button>
+                    </>
             )
         } else if (this.state.tileContents === "Alarm"){
             return(
@@ -85,7 +85,6 @@ export default class Tiles extends React.Component {
 }
 
 function tileContent(probs){
-
     return(
         <div>
             <p>{probs}</p>
@@ -95,17 +94,17 @@ function tileContent(probs){
 
 
 async function tileName_getter(){
-    var TileNames=[]
-    await fetch('api/tiles').then(res => res.json()).then(data => {
-        for (let i = 0; i < Object.values(data)[0].length; i++) {
-            TileNames.push(Object.values(data)[0][i])
-        }
-    })
+    const TileNames = [];
+    const res = await fetch('api/tiles')
+    const json = await res.json()
+    for (let i = 0; i < Object.values(json)[0].length; i++) {
+        TileNames.push(Object.values(json)[0][i])
+    }
     return TileNames
 }
 
 
-export async function func1(JSONOb) {
+export async function sendToApi(JSONOb) {
     await fetch("/api/result", {
             method: "POST",
             cache: "no-cache",
@@ -116,4 +115,5 @@ export async function func1(JSONOb) {
         }
     )
 }
+
 

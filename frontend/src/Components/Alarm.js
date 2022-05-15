@@ -16,7 +16,7 @@ export default class Alarm extends React.Component {
 
         this.state.AlarmTile.push(
             <div className="flex flex-row items-center">
-                <button onClick={() => {this.props.handler(); func2(this.state.checkBox, this.state.time)}} className="tiles">
+                <button onClick={() => {this.props.handler(); alarmAPI(this.state.checkBox, this.state.time)}} className="tiles">
                         <span className="text-white relative w-32 h-32 inline-flex justify-center items-center bg-darkReader rounded-md group-hover:bg-opacity-0">Send Alarm</span>
                 </button>
                 <div className="flex items-center, flex-col">
@@ -49,7 +49,7 @@ export default class Alarm extends React.Component {
     }
 }
 
-export function func2(state, time) {
+export function alarmAPI(state, time) {
     fetch("api/result", {
             method: "POST",
             cache: "no-cache",

@@ -16,7 +16,6 @@ from colorwebsites import colors as cw_blueprint
 from login import security as login_blueprint
 from wine import wine as wine_blueprint
 
-from login import login_manager
 from models import db
 
 load_dotenv()
@@ -26,8 +25,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
-
-login_manager.init_app(app)
 
 app.register_blueprint(cw_blueprint)
 app.register_blueprint(login_blueprint)

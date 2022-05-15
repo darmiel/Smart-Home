@@ -3,6 +3,7 @@ import {news_getter} from './RSS'
 import Tiles from './TilesContent'
 import '../index.css'
 import Rooms from './Rooms'
+import Login from "./login";
 
 export default class TilesCust extends React.Component {
     constructor(props) {
@@ -11,14 +12,19 @@ export default class TilesCust extends React.Component {
 			isLoaded: false,
             title: [],
             tileNames: [],
-            showTiles: true
-
+            showTiles: true,
+            loggedIn: false
 		};
+        this.handler=this.handler.bind(this)
 	}
+
+    handler(){
+        this.setState({loggedIn: [true]})
+    }
 
 
     async componentDidMount(){
-
+        this.setState({loggedIn: await checkLoginState()})
         const news = await news_getter()
 
         if (this.state.title.length === 0) {
@@ -38,10 +44,11 @@ export default class TilesCust extends React.Component {
 
         const { isLoaded } = this.state;
 
-        if (!isLoaded){
-            return <div>Loading . . . </div>
+        if (!isLoaded || !this.state.loggedIn[0]){
+            return(
+                <Login handler={this.handler}></Login>
+        )
         } else if (this.state.showTiles) {
-
                 return (
                     <div className="flex md:flex-row sm:flex-wrap">
                         <div className="flex-row flex-grow flex-wrap md:w-6/12">
@@ -53,10 +60,17 @@ export default class TilesCust extends React.Component {
                     </div>)
         } else if (!this.state.showTiles){
             return(
-                <p className="text-white">LOL</p>
+                <p></p>
             )
         }
-
     }
+}
+
+
+
+export async function checkLoginState(){
+    const res = await fetch('/api/login')
+    const json = await res.json()
+    return Object.values(json)
 }
 

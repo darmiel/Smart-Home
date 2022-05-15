@@ -5,7 +5,8 @@ from flask import request, Blueprint, render_template
 
 from alarmthread import start_thread
 from mqtt import mqttc
-from wine import select_wine, nested_list
+
+from login import checkLoginData, register
 
 alarmtime = ['07:00']
 
@@ -16,6 +17,8 @@ rooms_checked = {
     "bathroom": True,
     "bedroom": True
 }
+
+loggedIn = False
 
 
 @colors.route('/api/result', methods=['POST'])
@@ -49,6 +52,33 @@ def tiles():
 def rooms():
     return {'rooms_checked': rooms_checked
             }
+
+
+@colors.route('/api/login', methods=['POST', 'GET'])
+def login():
+    global loggedIn
+    try:
+        user = json.loads(request.data)
+        for key, value in user.items():
+            if checkLoginData(key, value):  # email,password
+                loggedIn = True
+    except:
+        pass
+
+    if not loggedIn:
+        return {'login': False}
+    return {'login': True}
+
+
+@colors.route('/api/register', methods=['POST'])
+def registerUser():
+    try:
+        regData = json.loads(request.data)
+        for key, value in regData.items():
+            register(key, value)
+    except:
+        pass
+    return "null"
 
 
 def get_states():

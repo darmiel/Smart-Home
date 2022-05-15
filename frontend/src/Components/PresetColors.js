@@ -1,5 +1,5 @@
 import React from "react";
-import {func1} from './TilesContent'
+import {sendToApi} from './TilesContent'
 
 export default class Tiles extends React.Component {
     constructor(props) {
@@ -19,7 +19,7 @@ export default class Tiles extends React.Component {
                 this.state.content.push(
                     <>
                         <button
-                            onClick={()=>func1(Object.values(data)[0][i])} className="tiles">
+                            onClick={()=>sendToApi(Object.values(data)[0][i])} className="tiles">
                         <span
                             className="text-white relative w-32 h-32 inline-flex justify-center items-center bg-darkReader rounded-md group-hover:bg-opacity-0">
                             {Object.values(data)[0][i]}

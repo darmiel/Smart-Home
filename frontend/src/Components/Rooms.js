@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {func1} from "./TilesContent";
+import {sendToApi} from "./TilesContent";
 
 export default class Rooms extends React.Component{
     promisedSetState;
@@ -30,7 +30,7 @@ export default class Rooms extends React.Component{
     async componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.state.msg!==prevState.msg || this.state.number === 0){
             for (let i=0; i<3; i++) {
-                await func1(Object.keys(this.state.rooms)[i])
+                await sendToApi(Object.keys(this.state.rooms)[i])
                 var cool = await Object.values(await rooms_getter())[i]
                 this.state.checkBoxes[i]=(
                     <div>
