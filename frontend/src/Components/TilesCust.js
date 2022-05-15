@@ -13,7 +13,6 @@ export default class TilesCust extends React.Component {
             title: [],
             tileNames: [],
             showTiles: true,
-            loggedIn: false
 		};
         this.handler=this.handler.bind(this)
 	}
@@ -22,8 +21,8 @@ export default class TilesCust extends React.Component {
         this.setState({loggedIn: [true]})
     }
 
-
     async componentDidMount(){
+        localStorage.clear();
         this.setState({loggedIn: await checkLoginState()})
         const news = await news_getter()
 
@@ -33,7 +32,6 @@ export default class TilesCust extends React.Component {
                                               className="bg-darkReader text-gray-50 m-4 mr-12 ml-8 w-full py-2.5 px-5 mr-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border border-gray-200 focus:ring-gray-700 hover:bg-gray-700" rel="noreferrer">{Object.keys(news)[i]}</a>)
             }
         }
-        this.state.isLoaded = true	//when all repos descriptions are gathered tell app it's loaded
 		this.setState({
 			isLoaded: true
 		});
@@ -43,8 +41,7 @@ export default class TilesCust extends React.Component {
     render() {
 
         const { isLoaded } = this.state;
-
-        if (!isLoaded || !this.state.loggedIn[0]){
+        if (!isLoaded || !localStorage.getItem('password')){
             return(
                 <Login handler={this.handler}></Login>
         )

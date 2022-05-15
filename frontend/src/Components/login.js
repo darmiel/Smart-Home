@@ -26,8 +26,10 @@ export default class Login extends React.Component{
       event.preventDefault()
       await checkLogin(this.state.email, this.state.password)
       const test = await checkLoginState()
+      console.log(test)
       if (test[0] === true){
           this.props.handler()
+          localStorage.setItem('password', "true")
       }
   }
 
