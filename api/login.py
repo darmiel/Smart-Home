@@ -1,33 +1,29 @@
-import sqlite3
-
-import os
 from dotenv import load_dotenv
 from flask import Blueprint
-import mysql.connector
+import mariadb
 
 load_dotenv()
 
 security = Blueprint('security', __name__)
 
-mydb = mysql.connector.connect(
-    host="127.0.0.1",
-    user=os.getenv('db_user'),
-    password=os.getenv('db_password'),
-    database=os.getenv('db_addr')
-)
+try:
+    mydb = mariadb.connect(
+        host='db',
+        user='root',
+        password="password",
+        database="smarthome"
+
+    )
+except mariadb.Error as e:
+    print(f"Error connecting to MariaDB Platform: {e}")
 
 
 def create_connection():
     cursor = mydb.cursor(buffered=True)
 
     try:
-        cursor.execute("CREATE DATABASE %s", {os.getenv('db_addr')})
-    except mysql.connector.errors.DatabaseError:
-        cursor.execute("SHOW DATABASES")
-
-    try:
         cursor.execute("CREATE TABLE user (email VARCHAR(255), password VARCHAR(255))")
-    except mysql.connector.errors.ProgrammingError:
+    except mydb.connector.errors.ProgrammingError:
         pass
 
     return cursor

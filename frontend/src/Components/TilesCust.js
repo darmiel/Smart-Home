@@ -42,11 +42,7 @@ export default class TilesCust extends React.Component {
     render() {
 
         const {isLoaded} = this.state;
-        if (!isLoaded || !localStorage.getItem('password')) {
-            return (
-                <Login handler={this.handler}></Login>
-            )
-        } else if (this.state.showTiles) {
+        if (this.state.showTiles) {
             return (
                 <div className="flex md:flex-row sm:flex-wrap">
                     <div className="flex-row flex-grow flex-wrap md:w-6/12">

@@ -1,0 +1,23 @@
+version: "3.3"
+services:
+    db:
+        image: mariadb
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password
+            MYSQL_DATABASE: smarthome
+    app:
+        container_name: app
+        build:
+            dockerfile: Dockerfile.api
+        depends_on:
+            -   db
+    frontend:
+        build:
+            dockerfile: Dockerfile.client
+        ports:
+            - '3000:80'
+        depends_on:
+            -   db
+            -   app

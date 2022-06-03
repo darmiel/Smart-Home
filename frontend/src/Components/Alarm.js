@@ -25,7 +25,7 @@ export default class Alarm extends React.Component {
                 </button>
                 <div className="flex items-center, flex-col">
                     <input type={"time"} id={"test"} onChange={(ev) => this.setState({time: ev.target.value})}/>
-                    <div class="flex items-center m-2">
+                    <div className="flex items-center m-2">
                         <input onClick={() => {
                             this.state.checkBox ? this.setState({checkBox: false}) : this.setState({checkBox: true})
                         }} id="default-checkbox" type="checkbox"

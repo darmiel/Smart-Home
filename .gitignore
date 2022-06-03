@@ -43,3 +43,5 @@ frontend/coverage
 /frontend/package.json
 /frontend/postcss.config.js
 /frontend/package-lock.json
+/deployment/nginx.default.conf
+/deployment/privkey.pem
