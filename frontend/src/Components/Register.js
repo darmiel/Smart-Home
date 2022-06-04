@@ -1,4 +1,5 @@
 import React from 'react'
+import {register} from "./ApiFunctions";
 
 export default class Register extends React.Component {
     constructor(props) {
@@ -88,14 +89,3 @@ export default class Register extends React.Component {
     }
 }
 
-export async function register(email, password) {
-    await fetch("/api/register", {
-            method: "POST",
-            cache: "no-cache",
-            headers: {
-                "content_type": "application/json",
-            },
-            body: JSON.stringify({[email]: password})
-        }
-    )
-}

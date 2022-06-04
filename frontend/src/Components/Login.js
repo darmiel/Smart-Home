@@ -1,6 +1,6 @@
 import React from 'react';
-import {checkLoginState} from "./TilesCust";
 import Register from "./Register";
+import {checkLogin, checkLoginState} from "./ApiFunctions";
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -101,14 +101,3 @@ export default class Login extends React.Component {
     }
 }
 
-export async function checkLogin(email, password) {
-    await fetch("/api/login", {
-            method: "POST",
-            cache: "no-cache",
-            headers: {
-                "content_type": "application/json",
-            },
-            body: JSON.stringify({[email]: password})
-        }
-    )
-}

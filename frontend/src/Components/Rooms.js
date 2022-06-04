@@ -1,5 +1,5 @@
 import React from 'react'
-import {sendToApi} from "./TilesContent";
+import {rooms_getter, sendToApi} from "./ApiFunctions";
 
 export default class Rooms extends React.Component {
     promisedSetState;
@@ -66,16 +66,5 @@ export default class Rooms extends React.Component {
 
         }
     }
-}
-
-async function rooms_getter() {
-    const rooms = {};
-    await fetch('http://localhost:5000/rooms').then(res => res.json()).then(data => {
-        const dataa = Object.values(data)[0];
-        for (let i = 0; i < Object.values(dataa).length; i++) {
-            rooms[Object.keys(dataa)[i]] = Object.values(dataa)[i]
-        }
-    })
-    return rooms
 }
 
