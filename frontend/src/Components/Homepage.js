@@ -2,7 +2,6 @@ import React from 'react';
 import {news_getter} from './NewsGetter'
 import TilesContent from './TilesContent'
 import '../index.css'
-import {checkLoginState} from "./ApiFunctions";
 
 export default class Homepage extends React.Component {
     constructor(props) {
@@ -13,16 +12,10 @@ export default class Homepage extends React.Component {
             tileNames: [],
             showTiles: true,
         };
-        this.handler = this.handler.bind(this)
     }
 
-    handler() {
-        this.setState({loggedIn: [true]})
-    }
 
     async componentDidMount() {
-        localStorage.clear();
-        this.setState({loggedIn: await checkLoginState()})
         const news = await news_getter()
 
         if (this.state.title.length === 0) {

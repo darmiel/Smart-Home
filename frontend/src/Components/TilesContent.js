@@ -1,7 +1,7 @@
 import React from 'react';
 import PresetColors from './PresetColors'
 import Alarm from './Alarm'
-import {sendToApi} from "./ApiFunctions";
+import {sendToApi, tileNameGetter} from "./ApiFunctions";
 
 
 export default class TilesContent extends React.Component {
@@ -28,7 +28,7 @@ export default class TilesContent extends React.Component {
 
     async componentDidMount() {
 
-        const tileNames = await tileName_getter()
+        const tileNames = await tileNameGetter()
         for (let i = 0; i < tileNames.length; i++) {
             this.state.tiles.push(
                 <>
@@ -99,17 +99,6 @@ function tileContent(probs) {
             <p>{probs}</p>
         </div>
     )
-}
-
-
-async function tileName_getter() {
-    const TileNames = [];
-    const res = await fetch('api/tiles')
-    const json = await res.json()
-    for (let i = 0; i < Object.values(json)[0].length; i++) {
-        TileNames.push(Object.values(json)[0][i])
-    }
-    return TileNames
 }
 
 

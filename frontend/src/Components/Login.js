@@ -1,6 +1,5 @@
 import React from 'react';
 import Register from "./Register";
-import {checkLogin, checkLoginState} from "./ApiFunctions";
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -8,7 +7,8 @@ export default class Login extends React.Component {
         this.state = {
             email: '',
             password: '',
-            register: false
+            register: false,
+            Error: []
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -25,21 +25,37 @@ export default class Login extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault()
-        await checkLogin(this.state.email, this.state.password)
-        const test = await checkLoginState()
-        console.log(test)
-        if (test[0] === true) {
-            this.props.handler()
-            localStorage.setItem('password', "true")
-        }
+        await fetch("/api/token", {
+                method: "POST",
+                cache: "no-cache",
+                headers: {
+                    "content_type": "application/json",
+                },
+                body: JSON.stringify({[this.state.email]: this.state.password})
+            }
+        ).then(response=>response.json()).then(data=>{
+            if (data['msg'] === "Wrong email or password"){this.setState({Error:
+                    [<div role="alert">
+                        <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                            Danger
+                        </div>
+                        <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                            <p>Wrong Email or Password</p>
+                        </div>
+                    </div>]})
+
+            } else {
+                this.props.setToken(data['access_token'])
+            }
+            })
     }
+
 
     handler() {
         this.setState({register: false})
     }
 
     render() {
-
         if (!this.state.register) {
             return (
                 <section className="h-screen">
@@ -87,7 +103,8 @@ export default class Login extends React.Component {
                                                 onClick={() => this.setState({register: true})}> Register</a>
                                         </p>
                                     </div>
-                                </form>
+                                </form><br/>
+                                <div>{this.state.Error}</div>
                             </div>
                         </div>
                     </div>

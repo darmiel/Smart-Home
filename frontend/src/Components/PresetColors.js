@@ -13,8 +13,16 @@ export default class Tiles extends React.Component {
     }
 
     async componentDidMount() {
+        let token = localStorage.getItem("token")
+        await fetch('api/react', {
+            method: "GET",
+            cache: "no-cache",
+            headers: {
+                "content_type": "application/json",
+                Authorization: 'Bearer ' + token
+            },
 
-        await fetch('api/react').then(res => res.json()).then(data => {
+        }).then(res => res.json()).then(data => {
             for (let i = 0; i < Object.values(data)[0].length; i++) {
                 this.state.content.push(
                     <>

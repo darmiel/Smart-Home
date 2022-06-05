@@ -1,12 +1,11 @@
 import json
 import time
 
-from flask import request, Blueprint, render_template
+from flask import request, Blueprint
+from flask_jwt_extended import jwt_required
 
 from alarmthread import start_thread
 from mqtt import mqttc
-
-from login import checkLoginData, register
 
 alarmtime = ['07:00']
 
@@ -22,6 +21,7 @@ loggedIn = False
 
 
 @colors.route('/api/result', methods=['POST'])
+@jwt_required()
 def result():
     colors = json.loads(request.data)
     try:
@@ -39,46 +39,22 @@ def result():
 
 
 @colors.route('/api/react')
+@jwt_required()
 def react():
     return {'colors': ["Sunset", "Relax", "Evening", "Pink", "Green"]}
 
 
 @colors.route('/api/tiles')
+@jwt_required()
 def tiles():
     return {'Tiles': ["Preset Colors", "Led Off", "Wine", "Alarm"]}
 
 
 @colors.route('/api/rooms')
+@jwt_required()
 def rooms():
     return {'rooms_checked': rooms_checked
             }
-
-
-@colors.route('/api/login', methods=['POST', 'GET'])
-def login():
-    global loggedIn
-    try:
-        user = json.loads(request.data)
-        for key, value in user.items():
-            if checkLoginData(key, value):  # email,password
-                loggedIn = True
-    except:
-        pass
-
-    if not loggedIn:
-        return {'login': False}
-    return {'login': True}
-
-
-@colors.route('/api/register', methods=['POST'])
-def registerUser():
-    try:
-        regData = json.loads(request.data)
-        for key, value in regData.items():
-            register(key, value)
-    except:
-        pass
-    return "null"
 
 
 def get_states():

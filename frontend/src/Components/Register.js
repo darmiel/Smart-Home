@@ -1,5 +1,5 @@
 import React from 'react'
-import {register} from "./ApiFunctions";
+import {register} from "./RegisterLoginFunctions";
 
 export default class Register extends React.Component {
     constructor(props) {
@@ -8,6 +8,7 @@ export default class Register extends React.Component {
             email: '',
             password: '',
             RPassword: '',
+            Error: []
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -24,8 +25,19 @@ export default class Register extends React.Component {
     async handleSubmit(event) {
         event.preventDefault()
         if (this.state.password === this.state.RPassword) {
-            register(this.state.email, this.state.password)
-            this.props.handler()
+            let test = await register(this.state.email, this.state.password)
+            if (test==="successful") {
+                this.props.handler()
+            } else {
+                this.setState({Error: [<div role="alert">
+                        <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                            Danger
+                        </div>
+                        <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                            <p>{test}</p>
+                        </div>
+                    </div>]})
+            }
         }
 
     }
@@ -80,7 +92,8 @@ export default class Register extends React.Component {
                                     >
                                     </input>
                                 </div>
-                            </form>
+                            </form><br/>
+                            <div>{this.state.Error}</div>
                         </div>
                     </div>
                 </div>

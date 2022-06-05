@@ -1,48 +1,28 @@
-export async function checkLoginState() {
-    const res = await fetch('/api/login')
-    const json = await res.json()
-    return Object.values(json)
-}
-
 export function alarmAPI(state, time) {
+    let token = localStorage.getItem('token')
     fetch("api/result", {
             method: "POST",
             cache: "no-cache",
             headers: {
                 "content_type": "application/json",
+                Authorization: 'Bearer ' + token
             },
             body: JSON.stringify({'time': [state, time]})
         }
     )
 }
 
-export async function checkLogin(email, password) {
-    await fetch("/api/login", {
-            method: "POST",
-            cache: "no-cache",
-            headers: {
-                "content_type": "application/json",
-            },
-            body: JSON.stringify({[email]: password})
-        }
-    )
-}
-
-export async function register(email, password) {
-    await fetch("/api/register", {
-            method: "POST",
-            cache: "no-cache",
-            headers: {
-                "content_type": "application/json",
-            },
-            body: JSON.stringify({[email]: password})
-        }
-    )
-}
-
-export async function rooms_getter() {
+export async function roomsGetter() {
     const rooms = {};
-    await fetch('http://localhost:5000/rooms').then(res => res.json()).then(data => {
+    let token = localStorage.getItem('token')
+    await fetch('http://localhost:5000/rooms', {
+        method: "GET",
+        cache: "no-cache",
+        headers: {
+            "content_type": "application/json",
+            Authorization: 'Bearer ' + token
+        },
+    }).then(res => res.json()).then(data => {
         const dataa = Object.values(data)[0];
         for (let i = 0; i < Object.values(dataa).length; i++) {
             rooms[Object.keys(dataa)[i]] = Object.values(dataa)[i]
@@ -52,13 +32,34 @@ export async function rooms_getter() {
 }
 
 export async function sendToApi(JSONOb) {
+    let token = localStorage.getItem('token')
     await fetch("/api/result", {
             method: "POST",
             cache: "no-cache",
             headers: {
                 "content_type": "application/json",
+                Authorization: 'Bearer ' + token
             },
             body: JSON.stringify({'colors': JSONOb})
         }
     )
+}
+
+export async function tileNameGetter() {
+    let token = localStorage.getItem('token')
+    const TileNames = [];
+    const res = await fetch('api/tiles', {
+        method: "GET",
+        cache: "no-cache",
+        headers: {
+            "content_type": "application/json",
+            Authorization: 'Bearer ' + token
+        },
+
+    })
+    const json = await res.json()
+    for (let i = 0; i < Object.values(json)[0].length; i++) {
+        TileNames.push(Object.values(json)[0][i])
+    }
+    return TileNames
 }
