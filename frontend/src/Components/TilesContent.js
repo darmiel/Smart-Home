@@ -32,13 +32,8 @@ export default class TilesContent extends React.Component {
         for (let i = 0; i < tileNames.length; i++) {
             this.state.tiles.push(
                 <>
-                    <button
-                        onClick={() => {
-                            this.setState({tileContents: tileNames[i]})
-                        }}
-                        className="tiles">
-                        <span key={"hallo" + [i]}
-                              className="text-white relative w-32 h-32 inline-flex justify-center items-center bg-darkReader rounded-md group-hover:bg-opacity-0">
+                    <button onClick={() => {this.setState({tileContents: tileNames[i]})}} className="tiles">
+                        <span className="text-white relative w-32 h-32 inline-flex justify-center items-center bg-darkReader rounded-md group-hover:bg-opacity-0">
                          {tileContent(tileNames[i])}
                         </span>
                     </button>

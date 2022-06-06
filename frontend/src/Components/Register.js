@@ -25,8 +25,8 @@ export default class Register extends React.Component {
     async handleSubmit(event) {
         event.preventDefault()
         if (this.state.password === this.state.RPassword) {
-            let test = await register(this.state.email, this.state.password)
-            if (test==="successful") {
+            let res = await register("register", this.state.email, this.state.password)
+            if (res==="successful") {
                 this.props.handler()
             } else {
                 this.setState({Error: [<div role="alert">
@@ -34,7 +34,7 @@ export default class Register extends React.Component {
                             Danger
                         </div>
                         <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                            <p>{test}</p>
+                            <p>{res}</p>
                         </div>
                     </div>]})
             }

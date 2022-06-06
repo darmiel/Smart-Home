@@ -1,5 +1,6 @@
-export async function register(email, password) {
-    return fetch("/api/register", {
+
+export async function register(url, email, password) {
+    return fetch("/api/" + url, {
         method: "POST",
         cache: "no-cache",
         headers: {

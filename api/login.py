@@ -11,7 +11,7 @@ security = Blueprint('security', __name__)
 
 try:
     mydb = mariadb.connect(
-        host='db',
+        host='localhost',
         user=os.getenv('db_user'),
         password=os.getenv('db_password'),
         database="smarthome"

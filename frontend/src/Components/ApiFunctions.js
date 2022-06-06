@@ -15,7 +15,7 @@ export function alarmAPI(state, time) {
 export async function roomsGetter() {
     const rooms = {};
     let token = localStorage.getItem('token')
-    await fetch('http://localhost:5000/rooms', {
+    await fetch('api/rooms', {
         method: "GET",
         cache: "no-cache",
         headers: {

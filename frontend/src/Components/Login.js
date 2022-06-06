@@ -1,5 +1,6 @@
 import React from 'react';
 import Register from "./Register";
+import {register} from "./RegisterLoginFunctions";
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -25,29 +26,20 @@ export default class Login extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault()
-        await fetch("/api/token", {
-                method: "POST",
-                cache: "no-cache",
-                headers: {
-                    "content_type": "application/json",
-                },
-                body: JSON.stringify({[this.state.email]: this.state.password})
-            }
-        ).then(response=>response.json()).then(data=>{
-            if (data['msg'] === "Wrong email or password"){this.setState({Error:
-                    [<div role="alert">
-                        <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                            Danger
-                        </div>
-                        <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                            <p>Wrong Email or Password</p>
-                        </div>
-                    </div>]})
-
-            } else {
-                this.props.setToken(data['access_token'])
-            }
-            })
+        let res = await register("token", this.state.email, this.state.password)
+        console.log(res)
+        if (res !== "Wrong email or password") {
+            this.props.setToken(res)
+        } else {
+            this.setState({Error: [<div role="alert">
+                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                        Danger
+                    </div>
+                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                        <p>{res}</p>
+                    </div>
+                </div>]})
+        }
     }
 
 

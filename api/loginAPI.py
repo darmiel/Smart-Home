@@ -37,9 +37,9 @@ def token():
     for key, value in user.items():
         if checkLoginData(key, value, mySalt):  # email,password
             access_token = create_access_token(identity=key)
-            response = {"access_token": access_token}
+            response = {"res": access_token}
             return response
-        return {"msg": "Wrong email or password"}, 401
+        return {"res": "Wrong email or password"}, 401
 
 
 @loginAPI.route('/api/logout', methods=['POST'])
