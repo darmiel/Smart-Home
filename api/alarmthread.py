@@ -20,11 +20,10 @@ def job():
 def run():
     global schedule_job
 
-# if a schedule job exists cancel it
+    # if a schedule job exists cancel it
     if schedule_job is not None:
         schedule.cancel_job(schedule_job)
     time_format = '%H:%M'
-
     alarmtime = str(datetime.strptime(new_alarmtime, time_format) - datetime.strptime(s2, time_format))
     if len(alarmtime) != 8:
         alarmtime = "0" + alarmtime
@@ -48,7 +47,7 @@ def start_thread(terminate, alarmtime):
 
     if not terminate:
 
-        new_alarmtime = alarmtime[0]
+        new_alarmtime = alarmtime
         stop_threads = False
 
         alarm = threading.Thread(target=run)
