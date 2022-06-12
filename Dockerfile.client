@@ -1,4 +1,4 @@
-FROM node:16-alpine as build-step
+FROM node:18-buster as build-step
 ENV PATH /frontend/node_modules/.bin:$PATH
 
 COPY ./frontend/package.json ./frontend/package-lock.json ./frontend/postcss.config.js ./frontend/tailwind.config.js ./

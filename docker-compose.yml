@@ -1,23 +1,29 @@
 version: "3.3"
 services:
     db:
-        image: mariadb
+        image: tobi312/rpi-mariadb:10.3
         environment:
             MYSQL_ROOT_PASSWORD: password
             MYSQL_USER: user
             MYSQL_PASSWORD: password
             MYSQL_DATABASE: smarthome
     app:
-        container_name: app
         build:
             dockerfile: Dockerfile.api
+        environment:
+            PYTHONUNBUFFERED: 1
+            TZ: Europe/Amsterdam
         depends_on:
             -   db
     frontend:
         build:
             dockerfile: Dockerfile.client
+        volumes:
+            -    /etc/letsencrypt:/cert
         ports:
             - '3000:80'
+            - '443:443'
         depends_on:
             -   db
             -   app
+

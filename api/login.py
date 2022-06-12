@@ -11,14 +11,14 @@ security = Blueprint('security', __name__)
 
 try:
     mydb = mariadb.connect(
-        host='localhost',
+        host=os.getenv('db_addr'),
         user=os.getenv('db_user'),
         password=os.getenv('db_password'),
         database="smarthome"
 
     )
-except mariadb.Error as e:
-    print(f"Error connecting to MariaDB Platform: {e}")
+except:
+    print(f"Error connecting to MariaDB Platform: rip")
 
 
 def create_connection():

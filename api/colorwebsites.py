@@ -20,7 +20,7 @@ rooms_checked = {
 loggedIn = False
 
 
-@colors.route('/api/result', methods=['POST'])
+@colors.route('/api/result', methods=['POST', 'GET'])
 @jwt_required()
 def result():
     colors = json.loads(request.data)

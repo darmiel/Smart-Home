@@ -9,7 +9,7 @@ export function alarmAPI(state, time) {
             },
             body: JSON.stringify({'time': [state, time]})
         }
-    )
+    ).then(res => console.log(res))
 }
 
 export async function roomsGetter() {
