@@ -69,7 +69,7 @@ docker compose up --build
 
 Change:
 
-```
+```c
 const char *area =; //Add room that the ESP should be associated with
 const char *ChipID =; //needs a unique ID, doesn't need to be specific
 
